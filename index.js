@@ -15,9 +15,14 @@ const webMergePromise = new WebMergePromiseAPI(key, secret);
 
 var option = {};
 option.search = "H1B";
+
 var file = {};
 file.id = 189218;
 file.name="H1B 2018 - 0831";
+file.key = "u73i5c";
+
+var data = {"CompanyName": "NYIS", "DayTime_Phone":"88888888", "Email":"test@nyis.com"};
+
 
 app.get("/", function(req, res) {
     webMergePromise.getDocuments(option).then(function(response){
@@ -41,6 +46,17 @@ app.get("/getFields", function(req, res) {
         let result = wrap.wrapresult(file.name, response);
         res.set("Content-Type", "text/html");
         res.send(result);
+    });
+});
+
+app.get("/mergeFields", function(req, res) {
+    webMergePromise.mergeDocument(file.id, file.key, data, 1, 0).then(function(response){
+        console.log(response);
+        // let result = wrap.wrapresult(file.name, response);
+        // res.set("Content-Type", "text/html");
+        // res.send(result);
+        var pdf_contents = response;
+        res.send("success");
     });
 });
 
