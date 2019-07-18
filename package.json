@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "webmerge": "^1.0.2"
+    "webmerge": "^1.0.2",
+    "zcrmsdk": "0.0.15"
   }
 }

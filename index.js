@@ -3,16 +3,55 @@ const WebMergePromiseAPI = require("webmerge").WebMergePromiseAPI;
 const wrap = require("./wrapresult");
 const login = require("./public/js/login");
 const express = require("express");
+//zoho crm
+const ZCRMRestClient = require("zcrmsdk");
+const mysql_util = require("zcrmsdk/lib/js/mysql/mysql_util");
+const initialzie = require("./Initialize");
+var bodyParser = require("body-parser");
+var urlencodedParser = bodyParser.urlencoded({ extended: true });
+const integrate = require("./webMergeInit");
 
 const app = express();
 app.use("/public", express.static("public"));
 
+//zoho
+app.get("/getContacts", function(req, res) {
+    ZCRMRestClient.initialize().then(function() {
+      mysql_util.getOAuthTokens().then(function(result) {
+        if (result == null || result.length === 0) {
+          //This token needs to be updated for initialization
+          let token =
+            "1000.844ffa047696e1c31aa44fabd487c6b6.8931baa8bce8e7251a379ccf3cc38208";
+          initialzie.getTokenOnetime(token);
+        } else {
+          getContacts(res);
+        }
+      });
+    });
+  });
+
+  function getContacts(res) {
+    let input = {};
+    input.module = "Contacts";
+    input.id = '3890818000004747257';
+    //input.body = leadJSON;
+    // let params = {};
+    // params.page = 0;
+    // params.per_page = 100;
+    // input.params = params;
+    integrate.mergeZohoContacts(input, res);
+  
+  }
+
+
+//webmerge key & secret
 var key = "PNNLI49BF4CEJSMQ21SDY46D9AH8";
 var secret = "MIHNLBYA";
 
 const webMerge = new WebMergeAPI(key, secret);
 const webMergePromise = new WebMergePromiseAPI(key, secret);
 
+//some test data
 var option = {};
 option.search = "H1B";
 
@@ -72,6 +111,7 @@ app.get("/mergeFields", function(req, res) {
       res.send("success");
     });
 });
+
 
 app.listen(3000, () => {
   console.log("listening on port 3000");
