@@ -16,8 +16,9 @@ var testfile = {
 
 module.exports = {
     mergeZohoContacts: async function(input, res) {
-        const response = await ZCRMRestClient.API.MODULES.get(input);
-        let data = JSON.parse(response.body).data;
+        const resp = await ZCRMRestClient.API.MODULES.get(input);
+        let data = JSON.parse(resp.body).data[0];
+        console.log(data);
         webMergePromise.mergeDocument(testfile.id, testfile.key, data, 1, 0).then(function(response) {
           console.log(response);
           // let result = wrap.wrapresult(file.name, response);

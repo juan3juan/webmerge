@@ -32,15 +32,14 @@ app.get("/getContacts", function(req, res) {
 
   function getContacts(res) {
     let input = {};
-    input.module = "Contacts";
-    input.id = '3890818000004747257';
+    input.module = 'Contacts';
+    input.id = '3890818000004607016';
     //input.body = leadJSON;
     // let params = {};
     // params.page = 0;
     // params.per_page = 100;
     // input.params = params;
     integrate.mergeZohoContacts(input, res);
-  
   }
 
 
