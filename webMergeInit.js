@@ -5,7 +5,8 @@ var fs = require('fs');
 var PDFDocument = require('pdfkit');
 var http = require('http');
 const pdfMakePrinter = require('pdfmake/src/printer');
-
+//build link with sftp
+var Client = require('ssh2').Client;
 
 
 //webmerge key & secret
@@ -47,9 +48,9 @@ module.exports = {
           // console.log(typeof response); //should be an Object
           // console.log(response.toString('base64'));
 
-          var pdf_contents = response;
+          var pdf_contents = "data1";
           //1.~~~~~~~
-          //var pdf_contents = "data1";
+          // var pdf_contents = response;
           // var doc = new PDFDocument;
           // doc.pipe(fs.createWriteStream('output.pdf'));
           // doc.text(pdf_contents);
@@ -60,11 +61,11 @@ module.exports = {
           // outFile.write(response);
 
           //3. ~~~~~~~~
-          const fontDescriptors = {};
-          const printer = new pdfMakePrinter(fontDescriptors);
-          const doc = printer.createPdfKitDocument(response);
-          doc.pipe(fs.createWriteStream('output.pdf'));        
-          doc.end();
+          // const fontDescriptors = {};
+          // const printer = new pdfMakePrinter(fontDescriptors);
+          // const doc = printer.createPdfKitDocument(response);
+          // doc.pipe(fs.createWriteStream('output.pdf'));        
+          // doc.end();
 
           //4. ~~~~~~~
           // var file = fs.createWriteStream('output.pdf');
@@ -75,19 +76,19 @@ module.exports = {
           // file.pipe(response);
 
           //5.~~~~~~~~
-          fs.writeFile('output.pdf', response, 'binary', function(err){
-            if(err)
-              console.log(err);
-            else
-              console.log("This file was saved!");
-          })
+          // fs.writeFile('output.pdf', response, 'binary', function(err){
+          //   if(err)
+          //     console.log(err);
+          //   else
+          //     console.log("This file was saved!");
+          // })
 
           //6. ~~~~~~~~~
           // fs.writeFile('output.pdf', new Buffer(response, 'base64'), function(err){ 
           //     if(err){
           //       res.send(err);
           //     }else{
-          //       res.send("保存成功！");
+          //       res.send("save success");
           //     }          
           // });
 
@@ -98,6 +99,30 @@ module.exports = {
           //   qs: { test:1, download:1 },
           //   body: {},
           // })
+
+          // 7. get file from sftp
+          var connSettings = {
+            host: '68.183.50.232',
+            port: 22, // Normal is 22 port
+            username: 'www-data',
+            password: 'pRt,7bCHg9zVuexF'
+            // You can use a key file too, read the ssh2 documentation
+          };
+          var conn = new Client();
+            conn.on('ready', function() {
+                conn.sftp(function(err, sftp) {
+                    if (err) throw err;                   
+                    var moveFrom = "/home/www-data/webmerge/Test1 -- 2019-08-08 01_20pm.pdf";
+                    var moveTo = "output.pdf";
+
+                    sftp.fastGet(moveFrom, moveTo , {}, function(downloadError){
+                        if(downloadError) throw downloadError;
+
+                        console.log("Succesfully download");
+                    });
+                });
+            }).connect(connSettings);
+
           res.send("success");
         });
     },

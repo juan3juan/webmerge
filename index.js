@@ -12,6 +12,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true });
 const integrate = require("./webMergeInit");
 var fs = require('fs');
 
+
 const app = express();
 app.use("/public", express.static("public"));
 
@@ -25,8 +26,8 @@ app.get("/getContacts", function(req, res) {
             "1000.844ffa047696e1c31aa44fabd487c6b6.8931baa8bce8e7251a379ccf3cc38208";
           initialzie.getTokenOnetime(token);
         } else {
-          getContacts(res);
-        //uploadFile();
+          //getContacts(res);
+          uploadFile();
         }
       });
     });
