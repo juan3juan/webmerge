@@ -10,6 +10,7 @@ const initialzie = require("./Initialize");
 var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 const integrate = require("./webMergeInit");
+var fs = require('fs');
 
 const app = express();
 app.use("/public", express.static("public"));
@@ -25,6 +26,7 @@ app.get("/getContacts", function(req, res) {
           initialzie.getTokenOnetime(token);
         } else {
           getContacts(res);
+        //uploadFile();
         }
       });
     });
@@ -41,6 +43,24 @@ app.get("/getContacts", function(req, res) {
     // input.params = params;
     integrate.mergeZohoContacts(input, res);
   }
+
+  function uploadFile(){
+    var readStream = fs.createReadStream('output.pdf');
+    let input = {};
+    input.module = 'Contacts';
+    input.id = '3890818000004607016';
+    input.x_file_content = readStream;
+
+    ZCRMRestClient.API.ATTACHMENTS.uploadFile(input).then(function(response){
+      response = JSON.parse(response.body);
+      response = response.data[0];
+      console.log(response);
+      // The attachment id of the uploaded file can be obtained from response.details.id
+      console.log(response.details.id);
+    });
+  }
+    
+  
 
 
 //webmerge key & secret
