@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "moment": "^2.24.0",
     "pdfkit": "^0.10.0",
     "pdfmake": "^0.1.58",
     "ssh2": "^0.8.5",

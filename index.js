@@ -10,59 +10,57 @@ const initialzie = require("./Initialize");
 var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 const integrate = require("./webMergeInit");
-var fs = require('fs');
-
+var fs = require("fs");
+const moment = require("moment");
 
 const app = express();
 app.use("/public", express.static("public"));
 
 //zoho
 app.get("/getContacts", function(req, res) {
-    ZCRMRestClient.initialize().then(function() {
-      mysql_util.getOAuthTokens().then(function(result) {
-        if (result == null || result.length === 0) {
-          //This token needs to be updated for initialization
-          let token =
-            "1000.844ffa047696e1c31aa44fabd487c6b6.8931baa8bce8e7251a379ccf3cc38208";
-          initialzie.getTokenOnetime(token);
-        } else {
-          //getContacts(res);
-          uploadFile();
-        }
-      });
+  ZCRMRestClient.initialize().then(function() {
+    mysql_util.getOAuthTokens().then(function(result) {
+      if (result == null || result.length === 0) {
+        //This token needs to be updated for initialization
+        let token =
+          "1000.844ffa047696e1c31aa44fabd487c6b6.8931baa8bce8e7251a379ccf3cc38208";
+        initialzie.getTokenOnetime(token);
+      } else {
+        getContacts(res);
+        //uploadFile();
+      }
     });
   });
+});
 
-  function getContacts(res) {
-    let input = {};
-    input.module = 'Contacts';
-    input.id = '3890818000004607016';
-    //input.body = leadJSON;
-    // let params = {};
-    // params.page = 0;
-    // params.per_page = 100;
-    // input.params = params;
-    integrate.mergeZohoContacts(input, res);
-  }
+function getContacts(res) {
+  let input = {};
+  input.module = "Contacts";
+  input.id = "3890818000007597014";
+  //input.body = leadJSON;
+  // let params = {};
+  // params.page = 0;
+  // params.per_page = 100;
+  // input.params = params;
+  integrate.mergeZohoContacts(input, res);
+}
 
-  function uploadFile(){
-    var readStream = fs.createReadStream('output.pdf');
-    let input = {};
-    input.module = 'Contacts';
-    input.id = '3890818000004607016';
-    input.x_file_content = readStream;
+function uploadFile() {
+  var filename = "Test1 -- 2019-10-08 03_03pm.pdf";
+  var readStream = fs.createReadStream(filename);
+  let input = {};
+  input.module = "Contacts";
+  input.id = "3890818000007597014";
+  input.x_file_content = readStream;
 
-    ZCRMRestClient.API.ATTACHMENTS.uploadFile(input).then(function(response){
-      response = JSON.parse(response.body);
-      response = response.data[0];
-      console.log(response);
-      // The attachment id of the uploaded file can be obtained from response.details.id
-      console.log(response.details.id);
-    });
-  }
-    
-  
-
+  ZCRMRestClient.API.ATTACHMENTS.uploadFile(input).then(function(response) {
+    response = JSON.parse(response.body);
+    response = response.data[0];
+    console.log(response);
+    // The attachment id of the uploaded file can be obtained from response.details.id
+    console.log(response.details.id);
+  });
+}
 
 //webmerge key & secret
 var key = "PNNLI49BF4CEJSMQ21SDY46D9AH8";
@@ -131,7 +129,6 @@ app.get("/mergeFields", function(req, res) {
       res.send("success");
     });
 });
-
 
 app.listen(3000, () => {
   console.log("listening on port 3000");
