@@ -1,6 +1,6 @@
 module.exports = {
-    wrapresult: function(header, data) {
-      let result = `<html>
+  wrapresult: function(header, data) {
+    let result = `<html>
       <head>
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
       </head>
@@ -15,24 +15,23 @@ module.exports = {
       <th>key</th>
       <th>name</th>
       </tr>`;
-      for (let i in data) {
-        let record = data[i];
-  
-        let { key, name } = record;
-        if (typeof Module == "undefined") {
-          Module = header;
-        }
-        result += `<tr>
-        <td align="middle"> ${key}</td>
+    for (let i in data) {
+      let record = data[i];
+
+      let { Email, name } = record;
+      if (typeof Module == "undefined") {
+        Module = header;
+      }
+      result += `<tr>
+        <td align="middle"> ${Email}</td>
         <td align="middle"> ${name}</td>
         <tr />`;
-      }
-      result += `</tr>
+    }
+    result += `</tr>
       </tabel>
       </div>
       </body>
       </html>`;
-      return result;
-    }
+    return result;
+  }
 };
-  

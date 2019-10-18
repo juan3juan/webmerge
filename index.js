@@ -23,7 +23,7 @@ app.get("/getContacts", function(req, res) {
       if (result == null || result.length === 0) {
         //This token needs to be updated for initialization
         let token =
-          "1000.844ffa047696e1c31aa44fabd487c6b6.8931baa8bce8e7251a379ccf3cc38208";
+          "1000.8b10455febcd56e8884f7d92799ec540.fd95d5251a143391c26791afc38c3aa2";
         initialzie.getTokenOnetime(token);
       } else {
         getContacts(res);
@@ -50,10 +50,11 @@ function uploadFile() {
   var readStream = fs.createReadStream(filename);
   let input = {};
   input.module = "Contacts";
-  input.id = "3890818000007597014";
+  input.id = "3890818000007128013";
   input.x_file_content = readStream;
 
   ZCRMRestClient.API.ATTACHMENTS.uploadFile(input).then(function(response) {
+    console.log(response);
     response = JSON.parse(response.body);
     response = response.data[0];
     console.log(response);
@@ -79,6 +80,8 @@ file.name = "H1B 2018 - 0831";
 file.key = "u73i5c";
 
 var testfile = {
+  // id: 253048,
+  // key: "xbgmpq"
   id: 248985,
   key: "bpv4ii"
 };
@@ -128,6 +131,29 @@ app.get("/mergeFields", function(req, res) {
       var pdf_contents = response;
       res.send("success");
     });
+});
+
+app.get("/getLeads", function(req, res) {
+  ZCRMRestClient.initialize().then(function() {
+    let input = {};
+    input.module = "Leads";
+    let params = {};
+    params.page = 0;
+    params.per_page = 100;
+    input.params = params;
+    ZCRMRestClient.API.MODULES.get(input).then(function(response) {
+      let data = JSON.parse(response.body).data;
+      console.log(data);
+      let result = wrap.wrapresult(input.module, data);
+      res.set("Content-Type", "text/html");
+      res.send(result);
+    });
+    // const response = await ZCRMRestClient.API.MODULES.get(input);
+    // let data = JSON.parse(response.body).data;
+    // let result = wrap.wrapresult(input.module, data);
+    // res.set("Content-Type", "text/html");
+    // res.send(result);
+  });
 });
 
 app.listen(3000, () => {
