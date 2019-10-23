@@ -18,6 +18,19 @@ app.use("/public", express.static("public"));
 
 //zoho
 app.get("/getContacts", function(req, res) {
+  //obtain params from url
+  let base_url = "http://" + req.headers.host + "/";
+  let request_url = req.url;
+  console.log(base_url);
+  console.log(request_url);
+  const current_url = new URL(request_url, base_url);
+  const search_params = current_url.searchParams;
+  console.log(search_params);
+  let url_input = {};
+  url_input.module = search_params.get("module");
+  //url_input.module = "Contacts";
+  url_input.id = search_params.get("id");
+  console.log(url_input);
   ZCRMRestClient.initialize().then(function() {
     mysql_util.getOAuthTokens().then(function(result) {
       if (result == null || result.length === 0) {
@@ -26,23 +39,24 @@ app.get("/getContacts", function(req, res) {
           "1000.8b10455febcd56e8884f7d92799ec540.fd95d5251a143391c26791afc38c3aa2";
         initialzie.getTokenOnetime(token);
       } else {
-        getContacts(res);
+        getContacts(url_input, res);
         //uploadFile();
       }
     });
   });
 });
 
-function getContacts(res) {
-  let input = {};
-  input.module = "Contacts";
-  input.id = "3890818000007597014";
+function getContacts(url_input, res) {
+  // let input = {};
+  // input.module = "Contacts";
+  // input.id = "3890818000007597014";
+
   //input.body = leadJSON;
   // let params = {};
   // params.page = 0;
   // params.per_page = 100;
   // input.params = params;
-  integrate.mergeZohoContacts(input, res);
+  integrate.mergeZohoContacts(url_input, res);
 }
 
 function uploadFile() {

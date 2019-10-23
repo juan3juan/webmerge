@@ -27,6 +27,7 @@ var testfile = {
 
 module.exports = {
   mergeZohoContacts: async function(input, res) {
+    // zoho fields & webMerge fields mapping
     const resp = await ZCRMRestClient.API.MODULES.get(input);
     let data = JSON.parse(resp.body).data[0];
     let data1 = {};
@@ -194,6 +195,7 @@ module.exports = {
     //   })
     //   .then(input => ZCRMRestClient.API.ATTACHMENTS.uploadFile(input))
     //   .catch(failureCallback);
+    res.send("success");
   },
   // mergeDoc: async function(input, res) {
   //     const response = await webMergePromise.mergeDocument(input.id, input.key, input.data, 1, 0);
