@@ -28,16 +28,46 @@ var testfile = {
 module.exports = {
   mergeZohoContacts: async function(input, res) {
     // zoho fields & webMerge fields mapping
-    const resp = await ZCRMRestClient.API.MODULES.get(input);
-    let data = JSON.parse(resp.body).data[0];
-    let data1 = {};
-    data1.PhoneKey = data.Phone;
-    data1.EmailKey = data.Email;
+    const respCaseInfo = await ZCRMRestClient.API.MODULES.get(input);
+    let caseInfoData = JSON.parse(respCaseInfo.body).data[0];
+
+    //obtain company & client info throught case info record
+    //extract company data
+    let companyId = caseInfoData.Related_Company.id;
+    let inputCompany = {};
+    inputCompany.id = companyId;
+    inputCompany.module = "Accounts";
+    const respCompany = await ZCRMRestClient.API.MODULES.get(inputCompany);
+    let companyData = JSON.parse(respCompany.body).data[0];
+    console.log(companyData.Account_Name);
+    //extract client data
+    let clientId = caseInfoData.Related_Client.id;
+    let inputClient = {};
+    inputClient.id = clientId;
+    inputClient.module = "Contacts";
+    const respClient = await ZCRMRestClient.API.MODULES.get(inputClient);
+    let clientData = JSON.parse(respClient.body).data[0];
+    console.log(clientData.Email);
+    //extract related case data
+    let caseId = caseInfoData.Related_Case.id;
+    let inputCase = {};
+    inputCase.id = caseId;
+    inputCase.module = "Deals";
+    const respCase = await ZCRMRestClient.API.MODULES.get(inputCase);
+    let caseData = JSON.parse(respCase.body).data[0];
+    console.log(caseData.Case_Number);
+
+    //integrate data from different modules
+    let integrateData = {};
+    integrateData.PhoneKey = clientData.Phone;
+    integrateData.EmailKey = clientData.Email;
+    integrateData.CompanyName = companyData.Account_Name;
+    integrateData.CaseNumber = caseData.Case_Number;
 
     const mergeDocu = await webMergePromise.mergeDocument(
       testfile.id,
       testfile.key,
-      data1,
+      integrateData,
       1,
       1
     );
@@ -77,6 +107,7 @@ module.exports = {
       })
       .connect(connSettings);
     console.log("filename: " + filename);
+
     // prepare input for upload
     // var readStream = fs.createReadStream(filename);
     // input.x_file_content = readStream;
@@ -195,7 +226,7 @@ module.exports = {
     //   })
     //   .then(input => ZCRMRestClient.API.ATTACHMENTS.uploadFile(input))
     //   .catch(failureCallback);
-    res.send("success");
+    //res.send("success");
   },
   // mergeDoc: async function(input, res) {
   //     const response = await webMergePromise.mergeDocument(input.id, input.key, input.data, 1, 0);

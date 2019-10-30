@@ -39,24 +39,25 @@ app.get("/getContacts", function(req, res) {
           "1000.8b10455febcd56e8884f7d92799ec540.fd95d5251a143391c26791afc38c3aa2";
         initialzie.getTokenOnetime(token);
       } else {
-        getContacts(url_input, res);
+        integrate.mergeZohoContacts(url_input, res);
+        //getContacts(res);
         //uploadFile();
       }
     });
   });
 });
 
-function getContacts(url_input, res) {
-  // let input = {};
-  // input.module = "Contacts";
-  // input.id = "3890818000007597014";
+function getContacts(res) {
+  let input = {};
+  input.module = "Cases_Info";
+  input.id = "3890818000011802561";
 
   //input.body = leadJSON;
   // let params = {};
   // params.page = 0;
   // params.per_page = 100;
   // input.params = params;
-  integrate.mergeZohoContacts(url_input, res);
+  integrate.mergeZohoContacts(input, res);
 }
 
 function uploadFile() {
