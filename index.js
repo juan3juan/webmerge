@@ -31,6 +31,7 @@ app.get("/getContacts", function(req, res) {
   //url_input.module = "Contacts";
   url_input.id = search_params.get("id");
   console.log(url_input);
+  url_input.document = search_params.get("document");
   ZCRMRestClient.initialize().then(function() {
     mysql_util.getOAuthTokens().then(function(result) {
       if (result == null || result.length === 0) {
