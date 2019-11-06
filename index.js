@@ -11,7 +11,7 @@ var bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
 const integrate = require("./webMergeInit");
 var fs = require("fs");
-const moment = require("moment");
+var moment = require("moment-timezone");
 var URL = require("url").URL;
 
 const app = express();
@@ -117,6 +117,11 @@ var data = {
 
 app.get("/", function(req, res) {
   webMergePromise.getDocuments(option).then(function(response) {
+    var curTime = moment()
+      .tz("America/New_York")
+      .format("YYYY-MM-DD hh_mma");
+    console.log("curTime : " + curTime);
+
     console.log(response);
     res.set("Content-Type", "text/html");
     res.send(response);

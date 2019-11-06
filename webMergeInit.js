@@ -7,7 +7,7 @@ var http = require("http");
 const pdfMakePrinter = require("pdfmake/src/printer");
 //build link with sftp
 var Client = require("ssh2").Client;
-const moment = require("moment");
+var moment = require("moment-timezone");
 const mappingDocument = require("./mappingDocument");
 
 //webmerge key & secret
@@ -51,7 +51,10 @@ module.exports = {
         conn.sftp(function(err, sftp) {
           if (err) throw err;
           //format the filename according to webMerge rule
-          var curTime = moment().format("YYYY-MM-DD hh_mma");
+          var curTime = moment()
+            .tz("America/New_York")
+            .format("YYYY-MM-DD hh_mma");
+          console.log("curTime : " + curTime);
           //var dir = "/home/www-data/webmerge/";
           var dir = "/home/Yury/WebMergeFile/";
           //change the file name from sftp
