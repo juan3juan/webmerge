@@ -39,10 +39,10 @@ module.exports = {
     var filename;
     // 7. get file from sftp
     var connSettings = {
-      host: "68.183.50.232",
+      host: "165.22.40.97",
       port: 22, // Normal is 22 port
-      username: "www-data",
-      password: "pRt,7bCHg9zVuexF"
+      username: "Yury",
+      password: "1228BABAMAMA"
       // You can use a key file too, read the ssh2 documentation
     };
     var conn = new Client();
@@ -52,7 +52,8 @@ module.exports = {
           if (err) throw err;
           //format the filename according to webMerge rule
           var curTime = moment().format("YYYY-MM-DD hh_mma");
-          var dir = "/home/www-data/webmerge/";
+          //var dir = "/home/www-data/webmerge/";
+          var dir = "/home/Yury/WebMergeFile/";
           //change the file name from sftp
           //filename = "Test1 -- " + curTime + ".pdf";
           filename = input.document + " -- " + curTime + ".pdf";
