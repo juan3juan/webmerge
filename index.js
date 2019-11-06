@@ -20,10 +20,12 @@ app.use("/public", express.static("public"));
 //zoho
 app.get("/getContacts", function(req, res) {
   //obtain params from url
-  let base_url = "http://" + req.headers.host + "/";
-  let request_url = req.url;
+  let base_url = req.protocol + "://" + req.headers.host;
+  // let request_url = req.url;
+  let request_url = req.originalUrl;
   console.log("base_url : " + base_url);
   console.log("request_url : " + request_url);
+
   const current_url = new URL(request_url, base_url);
   const search_params = current_url.searchParams;
   console.log("current_url: " + current_url);
