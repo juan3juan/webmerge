@@ -12,6 +12,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: true });
 const integrate = require("./webMergeInit");
 var fs = require("fs");
 const moment = require("moment");
+var URL = require("url").URL;
 
 const app = express();
 app.use("/public", express.static("public"));
@@ -21,17 +22,18 @@ app.get("/getContacts", function(req, res) {
   //obtain params from url
   let base_url = "http://" + req.headers.host + "/";
   let request_url = req.url;
-  console.log(base_url);
-  console.log(request_url);
+  console.log("base_url : " + base_url);
+  console.log("request_url : " + request_url);
   const current_url = new URL(request_url, base_url);
   const search_params = current_url.searchParams;
+  console.log("current_url: " + current_url);
   console.log(search_params);
   let url_input = {};
   url_input.module = search_params.get("module");
   //url_input.module = "Contacts";
   url_input.id = search_params.get("id");
-  console.log(url_input);
   url_input.document = search_params.get("document");
+  console.log(url_input);
   ZCRMRestClient.initialize().then(function() {
     mysql_util.getOAuthTokens().then(function(result) {
       if (result == null || result.length === 0) {
