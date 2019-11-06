@@ -8,6 +8,7 @@ const pdfMakePrinter = require("pdfmake/src/printer");
 //build link with sftp
 var Client = require("ssh2").Client;
 const moment = require("moment");
+const mappingDocument = require("./mappingDocument");
 
 //webmerge key & secret
 var key = "PNNLI49BF4CEJSMQ21SDY46D9AH8";
@@ -16,55 +17,17 @@ var secret = "MIHNLBYA";
 const webMerge = new WebMergeAPI(key, secret);
 const webMergePromise = new WebMergePromiseAPI(key, secret);
 
-var testfile_G28_I765_test = {
-  id: 323297,
-  key: "4mxuat"
-};
-
 module.exports = {
   mergeZohoContacts: async function(input, res) {
     // zoho fields & webMerge fields mapping
     const respCaseInfo = await ZCRMRestClient.API.MODULES.get(input);
     let caseInfoData = JSON.parse(respCaseInfo.body).data[0];
 
-    //integrate data from different modules
-    let integrateData = {};
-    let testfile = {};
-    console.log("input.document : " + input.document);
-    // check which document from url
-    if (input.document == "G28_I765_test") {
-      testfile = testfile_G28_I765_test;
-      //obtain company & client info through case info record
-      //extract company data
-      let companyId = caseInfoData.Related_Company.id;
-      let inputCompany = {};
-      inputCompany.id = companyId;
-      inputCompany.module = "Accounts";
-      const respCompany = await ZCRMRestClient.API.MODULES.get(inputCompany);
-      let companyData = JSON.parse(respCompany.body).data[0];
-      console.log(companyData.Account_Name);
-      //extract client data
-      let clientId = caseInfoData.Related_Client.id;
-      let inputClient = {};
-      inputClient.id = clientId;
-      inputClient.module = "Contacts";
-      const respClient = await ZCRMRestClient.API.MODULES.get(inputClient);
-      let clientData = JSON.parse(respClient.body).data[0];
-      console.log(clientData.Email);
-      //extract related case data
-      let caseId = caseInfoData.Related_Case.id;
-      let inputCase = {};
-      inputCase.id = caseId;
-      inputCase.module = "Deals";
-      const respCase = await ZCRMRestClient.API.MODULES.get(inputCase);
-      let caseData = JSON.parse(respCase.body).data[0];
-      console.log(caseData.Case_Number);
-
-      integrateData.G28_P3_10_DaytimeTelephone = clientData.Phone;
-      integrateData.G28_P3_6a_FamilyName = companyData.Account_Name;
-      integrateData.G28_P1_3b_Address = caseData.Case_Number;
-    }
-
+    // mapping data according to the WebMerge document
+    const mappingDatas = await mappingDocument.mappingData(input, caseInfoData);
+    integrateData = mappingDatas[0];
+    testfile = mappingDatas[1];
+    // invoke mergeDocument from WebMerge
     const mergeDocu = await webMergePromise.mergeDocument(
       testfile.id,
       testfile.key,
@@ -113,7 +76,51 @@ module.exports = {
     console.log("filename: " + filename);
     res.send("success");
   },
-  mappingData: async function(input, res) {},
+  // write new conditions in this function
+  mappingData: async function(input, caseInfoData) {
+    //these two are the output of the function
+    let integrateData = {}; //integrate data from different modules
+    let testfile = {}; //choose testfile
+
+    let testfile_G28_I765_test = {
+      id: 323297,
+      key: "4mxuat"
+    };
+
+    if (input.document == "G28_I765_test") {
+      testfile = testfile_G28_I765_test;
+      //obtain company & client info through case info record
+      //extract company data
+      let companyId = caseInfoData.Related_Company.id;
+      let inputCompany = {};
+      inputCompany.id = companyId;
+      inputCompany.module = "Accounts";
+      const respCompany = await ZCRMRestClient.API.MODULES.get(inputCompany);
+      let companyData = JSON.parse(respCompany.body).data[0];
+      console.log("companyData.Account_Name :" + companyData.Account_Name);
+      //extract client data
+      let clientId = caseInfoData.Related_Client.id;
+      let inputClient = {};
+      inputClient.id = clientId;
+      inputClient.module = "Contacts";
+      const respClient = await ZCRMRestClient.API.MODULES.get(inputClient);
+      let clientData = JSON.parse(respClient.body).data[0];
+      console.log("clientData.Email :" + clientData.Email);
+      //extract related case data
+      let caseId = caseInfoData.Related_Case.id;
+      let inputCase = {};
+      inputCase.id = caseId;
+      inputCase.module = "Deals";
+      const respCase = await ZCRMRestClient.API.MODULES.get(inputCase);
+      let caseData = JSON.parse(respCase.body).data[0];
+      console.log("caseData.Case_Number :" + caseData.Case_Number);
+
+      integrateData.G28_P3_10_DaytimeTelephone = clientData.Phone;
+      integrateData.G28_P3_6a_FamilyName = companyData.Account_Name;
+      integrateData.G28_P1_3b_Address = caseData.Case_Number;
+    }
+    return [integrateData, testfile];
+  },
   // prepare input for upload
   // var readStream = fs.createReadStream(filename);
   // input.x_file_content = readStream;
