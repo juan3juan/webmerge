@@ -129,11 +129,12 @@ app.get("/", function(req, res) {
 });
 
 app.get("/login", function(req, res) {
-  login.login(req, res);
+  //login.login(req, res);
+  res.redirect("/success");
 });
 
 app.post("/loginSuccess", function(req, res) {
-  res.send("success");
+  //res.send("success");
 });
 
 app.get("/getFields", function(req, res) {
@@ -179,6 +180,12 @@ app.get("/getLeads", function(req, res) {
     // res.set("Content-Type", "text/html");
     // res.send(result);
   });
+});
+
+//invoke when the merge process success
+app.get("/success", function(req, res) {
+  //__dirname -- absolute path
+  res.sendFile(__dirname + "/public/success.html");
 });
 
 app.listen(3000, () => {
