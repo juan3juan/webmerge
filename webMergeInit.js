@@ -87,7 +87,9 @@ module.exports = {
       //res.send("success");
       res.redirect("/success");
     } catch (e) {
-      throw new Error("Merge Exception!");
+      let merge_error = encodeURIComponent("Merge Exception!");
+      res.redirect("/error?error=" + merge_error);
+      throw new Error("Merge Exception!\n" + e);
     }
   }
 };

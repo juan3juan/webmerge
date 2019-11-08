@@ -52,7 +52,9 @@ app.get("/getContacts", function(req, res) {
       });
     });
   } catch (e) {
-    throw new Error("URL resolve exception!");
+    let url_Error = "URL resolve exception!";
+    res.redirect("/error");
+    throw new Error("URL resolve exception!\n" + e);
   }
   // process(auto injected, no need to import) used to process uncaughtException
   // process.on("uncaughtException", err => {
@@ -195,6 +197,14 @@ app.get("/getLeads", function(req, res) {
 app.get("/success", function(req, res) {
   //__dirname -- absolute path
   res.sendFile(__dirname + "/public/success.html");
+});
+
+//invoke when the merge process success
+app.get("/error", function(req, res) {
+  let error = req.query.error;
+  //__dirname -- absolute path
+  res.sendFile(__dirname + "/public/exception.html");
+  console.log("error : " + error);
 });
 
 app.listen(3000, () => {
