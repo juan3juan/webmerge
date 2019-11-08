@@ -19,37 +19,46 @@ app.use("/public", express.static("public"));
 
 //zoho
 app.get("/getContacts", function(req, res) {
-  //obtain params from url
-  let base_url = req.protocol + "://" + req.headers.host;
-  // let request_url = req.url;
-  let request_url = req.originalUrl;
-  console.log("base_url : " + base_url);
-  console.log("request_url : " + request_url);
+  try {
+    //obtain params from url
+    let base_url = req.protocol + "://" + req.headers.host;
+    // let request_url = req.url;
+    let request_url = req.originalUrl;
+    console.log("base_url : " + base_url);
+    console.log("request_url : " + request_url);
 
-  const current_url = new URL(request_url, base_url);
-  const search_params = current_url.searchParams;
-  console.log("current_url: " + current_url);
-  console.log(search_params);
-  let url_input = {};
-  url_input.module = search_params.get("module");
-  //url_input.module = "Contacts";
-  url_input.id = search_params.get("id");
-  url_input.document = search_params.get("document");
-  console.log(url_input);
-  ZCRMRestClient.initialize().then(function() {
-    mysql_util.getOAuthTokens().then(function(result) {
-      if (result == null || result.length === 0) {
-        //This token needs to be updated for initialization
-        let token =
-          "1000.8b10455febcd56e8884f7d92799ec540.fd95d5251a143391c26791afc38c3aa2";
-        initialzie.getTokenOnetime(token);
-      } else {
-        integrate.mergeZohoContacts(url_input, res);
-        //getContacts(res);
-        //uploadFile();
-      }
+    const current_url = new URL(request_url, base_url);
+    const search_params = current_url.searchParams;
+    console.log("current_url: " + current_url);
+    console.log(search_params);
+    let url_input = {};
+    url_input.module = search_params.get("module");
+    //url_input.module = "Contacts";
+    url_input.id = search_params.get("id");
+    url_input.document = search_params.get("document");
+    console.log(url_input);
+    ZCRMRestClient.initialize().then(function() {
+      mysql_util.getOAuthTokens().then(function(result) {
+        if (result == null || result.length === 0) {
+          //This token needs to be updated for initialization
+          let token =
+            "1000.8b10455febcd56e8884f7d92799ec540.fd95d5251a143391c26791afc38c3aa2";
+          initialzie.getTokenOnetime(token);
+        } else {
+          integrate.mergeZohoContacts(url_input, res);
+          //getContacts(res);
+          //uploadFile();
+        }
+      });
     });
-  });
+  } catch (e) {
+    throw new Error("URL resolve exception!");
+  }
+  // process(auto injected, no need to import) used to process uncaughtException
+  // process.on("uncaughtException", err => {
+  //   console.error("There was an uncaught error", err);
+  //   process.exit(1); //mandatory (as per the Node docs)
+  // });
 });
 
 function getContacts(res) {
