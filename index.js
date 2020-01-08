@@ -56,7 +56,7 @@ router.get("/getContacts", function(req, res) {
     });
   } catch (e) {
     let url_Error = "URL resolve exception!";
-    res.redirect("/error");
+    res.redirect("/wm/error");
     throw new Error("URL resolve exception!\n" + e);
   }
   // process(auto injected, no need to import) used to process uncaughtException
@@ -197,13 +197,13 @@ router.get("/getLeads", function(req, res) {
 });
 
 //invoke when the merge process success
-app.get("/success", function(req, res) {
+router.get("/success", function(req, res) {
   //__dirname -- absolute path
   res.sendFile(__dirname + "/public/success.html");
 });
 
 //invoke when the merge process success
-app.get("/error", function(req, res) {
+router.get("/error", function(req, res) {
   let error = req.query.error;
   //__dirname -- absolute path
   res.sendFile(__dirname + "/public/exception.html");

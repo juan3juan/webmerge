@@ -86,7 +86,7 @@ module.exports = {
         .connect(connSettings);
       console.log("filename: " + filename);
       //res.send("success");
-      res.redirect("/success");
+      res.redirect("/wm/success");
     } catch (e) {
       let merge_error = encodeURIComponent("Merge Exception!");
       res.redirect("/error?error=" + merge_error);
