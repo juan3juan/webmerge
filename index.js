@@ -15,10 +15,12 @@ var moment = require("moment-timezone");
 var URL = require("url").URL;
 
 const app = express();
-app.use("/public", express.static("public"));
+var router = express.Router();
+app.use("/wm", router);
+//app.use("/public", express.static("public"));
 
 //zoho
-app.get("/getContacts", function(req, res) {
+router.get("/getContacts", function(req, res) {
   try {
     //obtain params from url
     let base_url = req.protocol + "://" + req.headers.host;
@@ -36,6 +38,7 @@ app.get("/getContacts", function(req, res) {
     //url_input.module = "Contacts";
     url_input.id = search_params.get("id");
     url_input.document = search_params.get("document");
+    console.log("url_input");
     console.log(url_input);
     ZCRMRestClient.initialize().then(function() {
       mysql_util.getOAuthTokens().then(function(result) {
@@ -126,7 +129,7 @@ var data = {
   CompanyName: "JPM"
 };
 
-app.get("/", function(req, res) {
+router.get("/", function(req, res) {
   webMergePromise.getDocuments(option).then(function(response) {
     var curTime = moment()
       .tz("America/New_York")
@@ -139,16 +142,16 @@ app.get("/", function(req, res) {
   });
 });
 
-app.get("/login", function(req, res) {
+router.get("/login", function(req, res) {
   //login.login(req, res);
   res.redirect("/success");
 });
 
-app.post("/loginSuccess", function(req, res) {
+router.post("/loginSuccess", function(req, res) {
   //res.send("success");
 });
 
-app.get("/getFields", function(req, res) {
+router.get("/getFields", function(req, res) {
   webMergePromise.getDocumentFields(file.id).then(function(response) {
     console.log(response);
     let result = wrap.wrapresult(file.name, response);
@@ -157,7 +160,7 @@ app.get("/getFields", function(req, res) {
   });
 });
 
-app.get("/mergeFields", function(req, res) {
+router.get("/mergeFields", function(req, res) {
   webMergePromise
     .mergeDocument(testfile.id, testfile.key, data, 1, 0)
     .then(function(response) {
@@ -170,7 +173,7 @@ app.get("/mergeFields", function(req, res) {
     });
 });
 
-app.get("/getLeads", function(req, res) {
+router.get("/getLeads", function(req, res) {
   ZCRMRestClient.initialize().then(function() {
     let input = {};
     input.module = "Leads";
@@ -207,6 +210,6 @@ app.get("/error", function(req, res) {
   console.log("error : " + error);
 });
 
-app.listen(3000, () => {
-  console.log("listening on port 3000");
+app.listen(3200, () => {
+  console.log("listening on port 3200");
 });

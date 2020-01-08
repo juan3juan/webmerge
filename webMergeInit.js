@@ -23,14 +23,15 @@ module.exports = {
       // zoho fields & webMerge fields mapping
       const respCaseInfo = await ZCRMRestClient.API.MODULES.get(input);
       let caseInfoData = JSON.parse(respCaseInfo.body).data[0];
-
+      // console.log("caseInfoData");
+      // console.log(caseInfoData);
       // mapping data according to the WebMerge document
       const mappingDatas = await mappingDocument.mappingData(
         input,
         caseInfoData
       );
-      integrateData = mappingDatas[0];
-      testfile = mappingDatas[1];
+      let integrateData = mappingDatas[0];
+      let testfile = mappingDatas[1];
       // invoke mergeDocument from WebMerge
       const mergeDocu = await webMergePromise.mergeDocument(
         testfile.id,
@@ -43,10 +44,10 @@ module.exports = {
       var filename;
       // 7. get file from sftp
       var connSettings = {
-        host: "165.22.40.97",
+        host: "178.128.158.189",
         port: 22, // Normal is 22 port
-        username: "Yury",
-        password: "1228BABAMAMA"
+        username: "yury",
+        password: "nyisdeploy"
         // You can use a key file too, read the ssh2 documentation
       };
       var conn = new Client();
@@ -60,7 +61,7 @@ module.exports = {
               .format("YYYY-MM-DD hh_mma");
             console.log("curTime : " + curTime);
             //var dir = "/home/www-data/webmerge/";
-            var dir = "/home/Yury/WebMergeFile/";
+            var dir = "/home/yury/WebMergeFile/";
             //change the file name from sftp
             //filename = "Test1 -- " + curTime + ".pdf";
             filename = input.document + " -- " + curTime + ".pdf";
