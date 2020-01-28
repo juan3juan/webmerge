@@ -11,6 +11,11 @@ module.exports = {
       key: "4mxuat"
     };
 
+    let G28_I131 = {
+      id: 394665,
+      key: "szph16"
+    };
+
     if (input.document == "G28_I765_test") {
       testfile = testfile_G28_I765_test;
       //obtain company & client info through case info record
@@ -50,7 +55,6 @@ module.exports = {
       integrateData.G28_P1_3b_Address = clientData.Mailing_Unit_Number;
       integrateData.G28_P1_13c_CityOrTown = clientData.Mailing_City;
       integrateData.G28_P1_13d_State = clientData.Mailing_State;
-      integrateData.G28_P1_13d_State = clientData.Mailing_State;
       integrateData.G28_P1_13e_ZIPCode = clientData.Mailing_Zip;
       integrateData.P2_16a_FatherFamilyName = clientData.Father_s_Last_Name;
       integrateData.P2_16b_FatherFirstName = clientData.Father_s_First_Name;
@@ -76,6 +80,56 @@ module.exports = {
       integrateData.P2_27_EligibilityCategory =
         caseInfoData.Eligibility_Category;
       integrateData.P2_28a_Degree = caseInfoData.Type_of_U_S_Degree;
+    } else if (input.document == "G28_I131") {
+      testfile = G28_I131;
+      //obtain company & client info through case info record
+      //extract company data
+      let companyId = caseInfoData.Related_Company.id;
+      let inputCompany = {};
+      inputCompany.id = companyId;
+      inputCompany.module = "Accounts";
+      const respCompany = await ZCRMRestClient.API.MODULES.get(inputCompany);
+      let companyData = JSON.parse(respCompany.body).data[0];
+      console.log("companyData.Account_Name :" + companyData.Account_Name);
+      //extract client data
+      let clientId = caseInfoData.Related_Client.id;
+      let inputClient = {};
+      inputClient.id = clientId;
+      inputClient.module = "Contacts";
+      const respClient = await ZCRMRestClient.API.MODULES.get(inputClient);
+      let clientData = JSON.parse(respClient.body).data[0];
+      console.log("clientData.Email :" + clientData.Email);
+      //extract related case data
+      let caseId = caseInfoData.Related_Case.id;
+      let inputCase = {};
+      inputCase.id = caseId;
+      inputCase.module = "Deals";
+      const respCase = await ZCRMRestClient.API.MODULES.get(inputCase);
+      let caseData = JSON.parse(respCase.body).data[0];
+      console.log("caseData.Case_Number :" + caseData.Case_Number);
+
+      integrateData.G28_P3_6a_FamilyName = clientData.First_Name;
+      integrateData.G28_P3_6b_GivenName = clientData.Last_Name;
+      integrateData.G28_P3_10_DaytimeTelephone = clientData.Phone;
+      integrateData.G28_P3_13a_Street = clientData.Mailing_Street;
+      integrateData.G28_P1_13b = clientData.Mailing_Unit;
+      integrateData.G28_P1_3b_Address = clientData.Mailing_Unit_Number;
+      integrateData.G28_P1_13c_CityOrTown = clientData.Mailing_City;
+      integrateData.G28_P1_13d_State = clientData.Mailing_State;
+      integrateData.G28_P1_13e_ZIPCode = clientData.Mailing_Zip;
+      integrateData.G28_P3_9_ClientANumber = clientData.A_Number;
+      integrateData.P1_2i_Country = clientData.Mailing_Country;
+      integrateData.P1_4_CountryOfBirth = clientData.Country_of_Birth;
+      integrateData.P1_5_CountryOfCitizenship =
+        clientData.Country_of_Citizenship;
+      integrateData.P1_7_Gender = clientData.Gender;
+      integrateData.P1_8_DOB = clientData.Date_of_Birth;
+      integrateData.P1_9_SSN = clientData.SSN;
+
+      integrateData.P2_2a_FamilyName = clientData.Mailing_City;
+      integrateData.G28_P1_13d_State = clientData.Mailing_State;
+      integrateData.G28_P1_13e_ZIPCode = clientData.Mailing_Zip;
+      integrateData.G28_P3_9_ClientANumber = clientData.A_Number;
     }
     return [integrateData, testfile];
   }
