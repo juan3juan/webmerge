@@ -102,7 +102,7 @@ module.exports = {
       integrateData.P2_28a_Degree = caseInfoData.Type_of_U_S_Degree;
       integrateData.P2_13a_ssnBefore = caseInfoData.Has_SSA;
       integrateData.P2_12_I765Before =
-        caseInfoData.Ever_Filled_a_Petition_for_this_Beneficiary;
+        caseInfoData.Any_Same_Category_Petition_Before;
       integrateData.P5_1a_PreparersFamilyName = caseInfoData.Preparer_Last_Name;
       integrateData.P5_1b_PreparersFirstName = caseInfoData.Preparer_First_Name;
     } else if (input.document == "G28_I131") {
