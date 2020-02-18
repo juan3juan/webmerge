@@ -30,6 +30,7 @@ module.exports = {
         input,
         caseInfoData
       );
+
       let integrateData = mappingDatas[0];
       let testfile = mappingDatas[1];
       // invoke mergeDocument from WebMerge
