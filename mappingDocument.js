@@ -7,15 +7,18 @@ module.exports = {
     let testfile = {}; //choose testfile
 
     let testfile_G28_I765_test = {
+      name: "I765",
       id: 323297,
       key: "4mxuat"
     };
 
     let G28_I131 = {
+      name: "I131",
       id: 394665,
       key: "szph16"
     };
     let G28_H1B = {
+      name: "H1B",
       id: 446249,
       key: "6unp63"
     };
@@ -283,9 +286,104 @@ module.exports = {
         caseInfoData.Gross_Annual_Income;
       integrateData.I_129_P5_L16_NetAnnualIncome =
         caseInfoData.Net_Annual_Income;
+      integrateData.ReceiveAnyBenefits = caseData.Receive_Any_Benefits;
+      console.log("Receive_Any_Benefits");
+      console.log(caseData.Receive_Any_Benefits);
 
-      integrateData.ReceiveAnyBenefits = caseInfoData.Receive_Any_Benefits;
+      // multi-select  page 10
+      let abr = caseData.All_Benefits_Received;
+      if (abr != null) {
+        for (let i = 0; i < abr.length; i++) {
+          if (abr[i] === "Cash Assistance")
+            integrateData.CashAssistance = "true";
+          else if (abr[i] === "SSI") integrateData.SSI = "true";
+          else if (abr[i] === "TANF") integrateData.TANF = "true";
+          else if (abr[i] === "GA") integrateData.GA = "true";
+          else if (abr[i] === "Food Stamps") integrateData.FoodStamps = "true";
+          else if (abr[i] === "Housing Assistance")
+            integrateData.HousingAssistance = "true";
+          else if (abr[i] === "Rental Assistance")
+            integrateData.RentalAssistance = "true";
+          else if (abr[i] === "Public Housing")
+            integrateData.PublicHousing = "true";
+          else if (abr[i] === "Federal Medicaid")
+            integrateData.FederalMedicaid = "true";
+        }
+      }
+      let be = caseData.Benefits_Exempt;
+      if (be != null) {
+        for (let i = 0; i < be.length; i++) {
+          if (be[i] === "US Armed Force") integrateData.USArmedForce = "true";
+          else if (be[i] === "Spouse Child in US Armed Force")
+            integrateData.SpouseChildinUSArmedForce = "true";
+          else if (be[i] === "Armed Force when Receive")
+            integrateData.ArmedForcewhenReceive = "true";
+          else if (be[i] === "PCGI Exempt") integrateData.PCGIExempt = "true";
+          else if (be[i] === "PCGI Waiver") integrateData.PCGIWaiver = "true";
+          else if (be[i] === "Child for N600K")
+            integrateData.ChildforN600K = "true";
+          else if (be[i] === "None of Above")
+            integrateData.NoneofAbove = "true";
+        }
+      }
+
+      let me = caseData.Medicaid_Exempt;
+      if (me != null) {
+        for (let i = 0; i < me.length; i++) {
+          if (me[i] === "Emergency") integrateData.Emergency = "true";
+          else if (me[i] === "IDEA") integrateData.IDEA = "true";
+          else if (me[i] === "School Based") integrateData.SchoolBased = "true";
+          else if (me[i] === "Under 21") integrateData.Under21 = "true";
+          if (me[i] === "60Days following End of Pregnancy")
+            integrateData.SixtyDaysfollowingEndofPregnancy = "true";
+        }
+      }
+      integrateData.MedicaidStartDate = caseInfoData.Medicaid_Exempt_Start_Date;
+      integrateData.MedicaidEndDate = caseInfoData.Medicaid_Exempt_End_Date;
+
+      integrateData.I129_P7_Line1_PetitionerTitle =
+        caseInfoData.Petitioner_Title;
+      integrateData.I_129_P8_Line1_PreparerFamilyName =
+        caseInfoData.Preparer_Last_Name;
+      integrateData.I_129_P8_Line1_PreparerGivenName =
+        caseInfoData.Preparer_First_Name;
+      integrateData.I_129_SP_L2a_BeneficiaryName = caseInfoData.Full_Name;
+      integrateData.I_129_SP_S1_L3c_DOLRequirement =
+        caseInfoData.DOL_Requirement;
+      integrateData.I_129_SP_S1_L3c1_Over60K = caseInfoData.Over_60K;
+      integrateData.I_129_SP_S1_L3c2_HighDegree = caseInfoData.High_Degree;
+      integrateData.I_129_SP_S1_L3d_Over50Employee = caseInfoData.or_More;
+      integrateData.I_129_SP_S1_L3d1_Over50Per = caseInfoData.More_than_50;
+      integrateData.I_129_SP_S1_L2_HighestEducation =
+        caseInfoData.Highest_Education;
+      integrateData.I_129_SP_S1_L3_Major = caseInfoData.Major_Field;
+      integrateData.I_129_SP_S1_L4_RateofPayPerYear =
+        caseInfoData.Rate_of_Pay_Per_Year;
+      integrateData.I_129_SP_S1_L5_DOTCode = caseInfoData.DOT_Code;
+      integrateData.I_129_SP_S1_L6_NAICSCode = caseInfoData.NAICS_Code;
+      integrateData.I_129_SP_S2_L9_Less25Employee = caseInfoData.or_Less;
+      integrateData.I_129_SP_S3_L1_CAPType = caseInfoData.Type_of_Petition;
+      integrateData.I_129_SP_S3_L2a_UniversityName =
+        caseInfoData.University_Name;
+      integrateData.I_129_SP_S3_L2b_DateDegreeAwarded =
+        caseInfoData.Date_Degree_Awarded;
+      integrateData.I_129_SP_S3_L2c_TypeofDegree =
+        caseInfoData.Type_of_U_S_Degree;
+      integrateData.I_129_SP_S3_L2d_UniversityStreetName =
+        caseInfoData.University_Address;
+      integrateData.I_129_SP_S3_L2d_UniversityUnit =
+        caseInfoData.University_Unit;
+      integrateData.I_129_SP_S3_L2d_UniversityUnitNumber =
+        caseInfoData.University_Unit_Number;
+      integrateData.I_129_SP_S3_L2d_UniversityCity =
+        caseInfoData.University_City;
+      integrateData.I_129_SP_S3_L2d_UniversityState =
+        caseInfoData.University_State;
+      integrateData.I_129_SP_S3_L2d_UniversityZipCode =
+        caseInfoData.University_Zip_Code;
+      integrateData.I_129_P5_L5_Offsite = caseInfoData.Off_site_Assignment;
     }
+
     return [integrateData, testfile];
   }
 };

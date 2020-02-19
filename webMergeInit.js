@@ -57,10 +57,19 @@ module.exports = {
           conn.sftp(function(err, sftp) {
             if (err) throw err;
             //format the filename according to webMerge rule
-            var curTime = moment()
-              .tz("America/New_York")
-              .format("YYYY-MM-DD hh_mma");
-            console.log("curTime : " + curTime);
+            if (testfile.name == "H1B") {
+              var curTime = moment()
+                .subtract(1, "minutes")
+                .tz("America/New_York")
+                .format("YYYY-MM-DD hh_mma");
+              console.log("curTimeH1B : " + curTime);
+            } else {
+              var curTime = moment()
+                .tz("America/New_York")
+                .format("YYYY-MM-DD hh_mma");
+              console.log("curTime : " + curTime);
+            }
+
             //var dir = "/home/www-data/webmerge/";
             var dir = "/home/yury/WebMergeFile/";
             //change the file name from sftp
