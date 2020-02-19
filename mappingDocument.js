@@ -48,6 +48,7 @@ module.exports = {
     const respCase = await ZCRMRestClient.API.MODULES.get(inputCase);
     let caseData = JSON.parse(respCase.body).data[0];
     console.log("caseData.Case_Number :" + caseData.Case_Number);
+    integrateData.CaseMmgID = caseData.id;
 
     if (input.document == "G28_I765_test") {
       testfile = testfile_G28_I765_test;

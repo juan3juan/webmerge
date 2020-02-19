@@ -74,7 +74,9 @@ module.exports = {
             var dir = "/home/yury/WebMergeFile/";
             //change the file name from sftp
             //filename = "Test1 -- " + curTime + ".pdf";
-            filename = input.document + " -- " + curTime + ".pdf";
+            //filename = input.document + " -- " + curTime + ".pdf";
+            filename =
+              input.document + " -- " + integrateData.CaseMmgID + ".pdf";
             var moveFrom = dir + filename;
             var moveTo = "file/" + filename;
             console.log("filenameInside: " + filename);
