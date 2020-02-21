@@ -33,14 +33,23 @@ module.exports = {
 
       let integrateData = mappingDatas[0];
       let testfile = mappingDatas[1];
-      // invoke mergeDocument from WebMerge
-      const mergeDocu = await webMergePromise.mergeDocument(
-        testfile.id,
-        testfile.key,
-        integrateData,
-        1,
-        1
-      );
+      // change the mergeDocument test mode
+      if (testfile.name === "H1B") {
+        // invoke mergeDocument from WebMerge
+        const mergeDocu = await webMergePromise.mergeDocument(
+          testfile.id,
+          testfile.key,
+          integrateData
+        );
+      } else {
+        // invoke mergeDocument from WebMerge
+        const mergeDocu = await webMergePromise.mergeDocument(
+          testfile.id,
+          testfile.key,
+          integrateData,
+          1
+        );
+      }
 
       var filename;
       // 7. get file from sftp
