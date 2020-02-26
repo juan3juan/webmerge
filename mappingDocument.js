@@ -166,12 +166,15 @@ module.exports = {
         }
         console.log("ANumber : " + ANumber);
         integrateData.G28_P3_9_ClientANumber = ANumber;
+        let phone = clientData.Phone;
+        if (phone !== null && phone.length === 9) {
+          integrateData.P8_2_DaytimePhone_part1 = phone.substring(0, 3);
+          integrateData.P8_2_DaytimePhone_part2 = phone.substring(3, 6);
+          integrateData.P8_2_DaytimePhone_part3 = phone.substring(6);
+        }
       }
-
-      integrateData.P2_2a_FamilyName = clientData.Mailing_City;
-      integrateData.G28_P1_13d_State = clientData.Mailing_State;
-      integrateData.G28_P1_13e_ZIPCode = clientData.Mailing_Zip;
-      integrateData.G28_P3_9_ClientANumber = clientData.A_Number;
+      integrateData.P3_3a = "No";
+      integrateData.P3_4a = "No";
     } else if (input.document == "G28_H1B") {
       testfile = G28_H1B;
 
