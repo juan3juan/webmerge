@@ -11,7 +11,6 @@ module.exports = {
       id: 323297,
       key: "4mxuat"
     };
-
     let G28_I131 = {
       name: "I131",
       id: 394665,
@@ -175,6 +174,13 @@ module.exports = {
       }
       integrateData.P3_3a = "No";
       integrateData.P3_4a = "No";
+      integrateData.P4_1a_PurposeOfTrip = "Visiting family member and friends";
+      integrateData.P1_6_ClassOfAdmission = clientData.Current_Status;
+      integrateData.P2_1a_ApplicationType = caseData.I131_Application_Type;
+      integrateData.P3_1_DateIntendedDeparture =
+        caseData.Date_of_Intended_Departure;
+      integrateData.P3_2_ExpectedTripLength =
+        caseData.Exected_Length_of_Trips_in_days;
     } else if (input.document == "G28_H1B") {
       testfile = G28_H1B;
 
