@@ -24,34 +24,37 @@ module.exports = {
 
     //obtain company & client info through case info record
     //extract company data if not null
+    let companyData;
     if (caseInfoData.Related_Company !== null) {
       let companyId = caseInfoData.Related_Company.id;
-      let inputCompany = {};
       inputCompany.id = companyId;
       inputCompany.module = "Accounts";
       const respCompany = await ZCRMRestClient.API.MODULES.get(inputCompany);
-      let companyData = JSON.parse(respCompany.body).data[0];
+      companyData = JSON.parse(respCompany.body).data[0];
       console.log("companyData.Account_Name :" + companyData.Account_Name);
     }
+
     //extract client data
+    let clientData;
     if (caseInfoData.Related_Client !== null) {
       let clientId = caseInfoData.Related_Client.id;
       let inputClient = {};
       inputClient.id = clientId;
       inputClient.module = "Contacts";
       const respClient = await ZCRMRestClient.API.MODULES.get(inputClient);
-      let clientData = JSON.parse(respClient.body).data[0];
+      clientData = JSON.parse(respClient.body).data[0];
       console.log("clientData.Email :" + clientData.Email);
     }
 
     //extract related case data
+    let caseData;
     if (caseInfoData.Related_Case !== null) {
       let caseId = caseInfoData.Related_Case.id;
       let inputCase = {};
       inputCase.id = caseId;
       inputCase.module = "Deals";
       const respCase = await ZCRMRestClient.API.MODULES.get(inputCase);
-      let caseData = JSON.parse(respCase.body).data[0];
+      caseData = JSON.parse(respCase.body).data[0];
       console.log("caseData.Case_Number :" + caseData.Case_Number);
       integrateData.CaseMmgID = caseData.id;
     }
