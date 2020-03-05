@@ -27,6 +27,7 @@ module.exports = {
     let companyData;
     if (caseInfoData.Related_Company !== null) {
       let companyId = caseInfoData.Related_Company.id;
+      let inputCompany = {};
       inputCompany.id = companyId;
       inputCompany.module = "Accounts";
       const respCompany = await ZCRMRestClient.API.MODULES.get(inputCompany);
