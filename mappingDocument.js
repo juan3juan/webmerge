@@ -21,6 +21,11 @@ module.exports = {
       id: 446249,
       key: "6unp63"
     };
+    let G28_I130 = {
+      name: "I130",
+      id: 482438,
+      key: "24kk9b"
+    };
 
     //obtain company & client info through case info record
     //extract company data if not null
@@ -45,6 +50,17 @@ module.exports = {
       const respClient = await ZCRMRestClient.API.MODULES.get(inputClient);
       clientData = JSON.parse(respClient.body).data[0];
       console.log("clientData.Email :" + clientData.Email);
+
+      // get beneficiary for the peti
+      if (clientData.Beneficiary !== null) {
+        let beneId = clientData.Beneficiary.id;
+        let inputBene = {};
+        inputBene.id = beneId;
+        inputBene.module = "Contacts";
+        const respBene = await ZCRMRestClient.API.MODULES.get(inputBene);
+        beneData = JSON.parse(respBene.body).data[0];
+        console.log("beneData.Email :" + beneData.Email);
+      }
     }
 
     //extract related case data
@@ -403,6 +419,142 @@ module.exports = {
       integrateData.I_129_SP_S3_L2d_UniversityZipCode =
         caseInfoData.University_Zip_Code;
       integrateData.I_129_P5_L5_Offsite = caseInfoData.Off_site_Assignment;
+    } else if (input.document == "G28_I130") {
+      testfile = G28_I130;
+
+      integrateData.G28_P3_6a_FamilyName = clientData.Last_Name;
+      integrateData.G28_P3_6b_GivenName = clientData.First_Name;
+      integrateData.G28_P3_10_DaytimeTelephone = clientData.Phone;
+      integrateData.G28_P3_11_TelephoneNumber = clientData.Mobile;
+      integrateData.G28_P3_12_Email = clientData.Email;
+      integrateData.P2_10_Gender = clientData.Gender;
+      integrateData.P2_11_MaritalStatus = clientData.Marital_Status;
+      integrateData.P2_13b_ssn = clientData.SSN;
+      integrateData.G28_P3_13a_Street = clientData.Mailing_Street;
+      integrateData.G28_P1_13b = clientData.Mailing_Unit;
+      integrateData.G28_P1_3b_Address = clientData.Mailing_Unit_Number;
+      integrateData.G28_P1_13c_CityOrTown = clientData.Mailing_City;
+      integrateData.G28_P1_13d_State = clientData.Mailing_State;
+      integrateData.G28_P1_13e_ZIPCode = clientData.Mailing_Zip;
+
+      integrateData.P1_1_applyFor = caseData.Relationship;
+      integrateData.P1_2_ChildParent = caseData.Child_Parent_Relationship;
+      integrateData.BrotherSister = caseData.Sibling_Related_by_adoption;
+      integrateData.P1_4_PROrCitizenThroughAdoption =
+        caseData.Gain_PR_Citizen_Through_Adoption;
+      integrateData.P2_3_ssn = clientData.SSN;
+      integrateData.P2_5a_FamilyName = clientData.Other_Last_Name_1;
+      integrateData.P2_5b_GivenName = clientData.Other_First_Name_1;
+      integrateData.P2_6_CityTownVillageOfBirth = clientData.City_of_Birth;
+      integrateData.P2_7_CountryOfBirth = clientData.Country_of_Birth;
+      integrateData.P2_8_DOB = clientData.Date_of_Birth;
+      integrateData.P2_9_Sex = clientData.Gender;
+      integrateData.P2_10a_InCareOfName =
+        clientData.First_Name + " " + clientData.Last_Name;
+      integrateData.P2_11_MailingSamePhysical =
+        clientData.Is_mailing_address_same_as_physical_address;
+      if (integrateData.P2_11_MailingSamePhysical === "No") {
+        integrateData.P2_12a_Street = clientData.Other_Street;
+        integrateData.P2_12b = clientData.Other_Unit;
+        integrateData.P2_12b_Address = clientData.Other_Unit_Number;
+        integrateData.P2_12c_CityOrTown = clientData.Other_City;
+        integrateData.P2_12d_State = clientData.Other_State;
+        integrateData.P2_12e_ZIPCode = clientData.Other_Zip;
+        integrateData.P2_12h_Country = clientData.Other_Country;
+        integrateData.P2_10g_Province = clientData.Other_Province;
+        integrateData.P2_10h_PostalCode = clientData.Other_Postal_Code;
+      }
+      integrateData.P2_10g_Province = clientData.Mailing_Province;
+      integrateData.P2_10h_PostalCode = clientData.Mailing_Postal_Code;
+
+      integrateData.P2_10i_Country = clientData.Mailing_Country;
+      integrateData.P2_17_MaritalStatus = clientData.Marital_Status;
+      // parents
+      integrateData.P2_24a_FamilyName = clientData.Father_s_Last_Name;
+      integrateData.P2_24b_GivenName = clientData.Father_s_First_Name;
+      integrateData.P2_26_Sex = "Male";
+      integrateData.P2_30a_FamilyName = clientData.Mother_s_Last_Name;
+      integrateData.P2_30b_GivenName = clientData.Mother_s_First_Name;
+      integrateData.P2_32_Sex = "Female";
+      //additional for peti
+      integrateData.P2_36_CitizenOrPR = clientData.US_Citizen_PR;
+      integrateData.P2_37_CitizenshipAcquiredWays =
+        clientData.Acquire_citizenship_through;
+      integrateData.P2_38_ObtainCertificateOfNutralizationOrCitizenship =
+        clientData.Obtained_Certificate_of_Naturalization_or_Citizens;
+      integrateData.P2_39a_CertificateNumber =
+        clientData.Citizenship_Certificate_Number;
+      integrateData.P2_40a_ClassOfAdmission = clientData.PR_Class_of_Admission;
+      integrateData.P2_41_PRFromMarriage = clientData.PR_Through_Marriage;
+
+      // Beneficiary
+      if (beneData !== undefined && beneData !== null) {
+        integrateData.P4_4a_FamilyName = beneData.Last_Name;
+        integrateData.P4_4b_GivenName = beneData.First_Name;
+        integrateData.P4_5a_FamilyName = beneData.Other_Last_Name_1;
+        integrateData.P4_5b_GivenName = beneData.Other_First_Name_1;
+        integrateData.P4_6_CityTownVillageOfBirth = beneData.City_of_Birth;
+        integrateData.P4_7_CountryOfBirth = beneData.Country_of_Birth;
+        integrateData.P4_8_DOB = beneData.Date_of_Birth;
+        integrateData.P4_9_Sex = beneData.Gender;
+
+        integrateData.P4_10_EverFiledPetiForBene =
+          beneData.Anyone_Filed_for_This_Beneficiary_Before;
+
+        integrateData.P4_11a_Street = beneData.Mailing_Street;
+        integrateData.P4_11b = beneData.Mailing_Unit;
+        integrateData.P4_11b_Address = beneData.Mailing_Unit_Number;
+        integrateData.P4_11c_CityOrTown = beneData.Mailing_City;
+        integrateData.P4_11d_State = beneData.Mailing_State;
+        integrateData.P4_11e_ZIPCode = beneData.Mailing_Zip;
+        integrateData.P4_11f_Province = beneData.Mailing_Province;
+        integrateData.P4_11g_PostalCode = beneData.Mailing_Postal_Code;
+        integrateData.P4_11h_Country = beneData.Mailing_Country;
+
+        integrateData.P4_12a_Street = beneData.Other_Street;
+        integrateData.P4_12b = beneData.Other_Unit;
+        integrateData.P4_12b_Address = beneData.Other_Unit_Number;
+        integrateData.P4_12c_CityOrTown = beneData.Other_City;
+        integrateData.P4_12d_State = beneData.Other_State;
+        integrateData.P4_12e_ZIPCode = beneData.Other_Zip;
+        integrateData.P2_12h_Country = beneData.Other_Country;
+        integrateData.P4_14_DaytimeTelephone = beneData.Phone;
+        integrateData.P4_15_MobileTelephone = beneData.Mobile;
+        integrateData.P4_16_Email = beneData.Email;
+        integrateData.P4_18_MaritalStatus = beneData.Marital_Status;
+        integrateData.P4_45_EverInUS = beneData.Was_Beneficiary_ever_in_the_US;
+        integrateData.P4_46_ClassOfAdmission = beneData.Status_of_Last_Entry;
+        integrateData.P4_46b_I94 = beneData.I_94_No;
+        integrateData.P4_46c_DateOfArrival = beneData.Date_of_Last_Entry;
+        integrateData.P4_46d_DateOfExpired = beneData.Current_Status_Expires;
+        integrateData.P4_47_PassportNumber = beneData.Passport_Number;
+        integrateData.P4_48_TravelDocumentNumber =
+          beneData.Travel_Document_Number;
+        integrateData.P4_49_CountryIssuedPassport =
+          beneData.Country_Passport_Issued;
+        integrateData.P4_50_ExpirationDateforPassport =
+          beneData.Date_Passport_Expired;
+        integrateData.P4_53_EverInImmigration =
+          beneData.EVER_in_immigration_proceedings;
+        integrateData.P4_54_typeOfProceedings = beneData.Type_of_Proceedings;
+        integrateData.P4_55a_CityOrTown = beneData.Proceedings_City_Or_Town;
+        integrateData.P4_55b_State = beneData.Proceedings_State;
+        integrateData.P4_56_Date = beneData.Proceedings_Date;
+        integrateData.P5_1_EverFiledPetiForTheBene =
+          beneData.Ever_Filed_Petition_For_The_Beneficiary;
+      }
+      //company
+      if (companyData !== undefined && companyData !== null) {
+        integrateData.P2_42_Employer = companyData.Account_Name;
+        integrateData.P2_43a_Street = companyData.Billing_Street;
+        integrateData.P2_43b = companyData.Billing_Unit;
+        integrateData.P2_43b_Address = companyData.Billing_Unit_Number;
+        integrateData.P2_43c_CityOrTown = companyData.Billing_City;
+        integrateData.P2_43d_State = companyData.Billing_State;
+        integrateData.P2_43e_ZIPCode = companyData.Billing_Code;
+        integrateData.P2_43h_Country = companyData.Billing_Country;
+      }
+      integrateData.P2_44_Occupation = caseData.Occupation_Title;
     }
 
     return [integrateData, testfile];
