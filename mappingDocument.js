@@ -436,6 +436,18 @@ module.exports = {
       integrateData.G28_P1_13c_CityOrTown = clientData.Mailing_City;
       integrateData.G28_P1_13d_State = clientData.Mailing_State;
       integrateData.G28_P1_13e_ZIPCode = clientData.Mailing_Zip;
+      //A-number
+      let ANumber = clientData.A_Number;
+      if (ANumber !== null) {
+        console.log("clientData.A_Number inside");
+
+        ANumber = ANumber.trim().replace(/\s/g, ""); //remove blank front, end and between
+        if (ANumber !== null || ANumber !== "") {
+          if (ANumber.charAt(0) === "A" || ANumber.charAt(0) === "a")
+            ANumber = ANumber.substring(1);
+        }
+        integrateData.G28_P3_9_ClientANumber = ANumber;
+      }
 
       integrateData.P1_1_applyFor = caseData.Relationship;
       integrateData.P1_2_ChildParent = caseData.Child_Parent_Relationship;
@@ -447,7 +459,15 @@ module.exports = {
       integrateData.P2_5b_GivenName = clientData.Other_First_Name_1;
       integrateData.P2_6_CityTownVillageOfBirth = clientData.City_of_Birth;
       integrateData.P2_7_CountryOfBirth = clientData.Country_of_Birth;
-      integrateData.P2_8_DOB = clientData.Date_of_Birth;
+      if (
+        clientData.Date_of_Birth !== undefined ||
+        clientData.Date_of_Birth !== null
+      ) {
+        let tempP2_8_DOB = clientData.Date_of_Birth.split("-");
+        integrateData.P2_8_DOB =
+          tempP2_8_DOB[1] + "/" + tempP2_8_DOB[2] + "/" + tempP2_8_DOB[0];
+      }
+
       integrateData.P2_9_Sex = clientData.Gender;
       integrateData.P2_10a_InCareOfName =
         clientData.First_Name + " " + clientData.Last_Name;
@@ -495,7 +515,14 @@ module.exports = {
         integrateData.P4_5b_GivenName = beneData.Other_First_Name_1;
         integrateData.P4_6_CityTownVillageOfBirth = beneData.City_of_Birth;
         integrateData.P4_7_CountryOfBirth = beneData.Country_of_Birth;
-        integrateData.P4_8_DOB = beneData.Date_of_Birth;
+        if (
+          beneData.Date_of_Birth !== undefined ||
+          beneData.Date_of_Birth !== null
+        ) {
+          let tempP4_8_DOB = beneData.Date_of_Birth.split("-");
+          integrateData.P4_8_DOB =
+            tempP4_8_DOB[1] + "/" + tempP4_8_DOB[2] + "/" + tempP4_8_DOB[0];
+        }
         integrateData.P4_9_Sex = beneData.Gender;
 
         integrateData.P4_10_EverFiledPetiForBene =
@@ -525,21 +552,69 @@ module.exports = {
         integrateData.P4_45_EverInUS = beneData.Was_Beneficiary_ever_in_the_US;
         integrateData.P4_46_ClassOfAdmission = beneData.Status_of_Last_Entry;
         integrateData.P4_46b_I94 = beneData.I_94_No;
-        integrateData.P4_46c_DateOfArrival = beneData.Date_of_Last_Entry;
-        integrateData.P4_46d_DateOfExpired = beneData.Current_Status_Expires;
+
+        if (
+          beneData.Date_of_Last_Entry !== undefined ||
+          beneData.Date_of_Last_Entry !== null
+        ) {
+          let tempP4_46c_DateOfArrival = beneData.Date_of_Last_Entry.split("-");
+          integrateData.P4_46c_DateOfArrival =
+            tempP4_46c_DateOfArrival[1] +
+            "/" +
+            tempP4_46c_DateOfArrival[2] +
+            "/" +
+            tempP4_46c_DateOfArrival[0];
+        }
+        if (
+          beneData.Current_Status_Expires !== undefined ||
+          beneData.Current_Status_Expires !== null
+        ) {
+          let tempP4_46d_DateOfExpired = beneData.Current_Status_Expires.split(
+            "-"
+          );
+          integrateData.P4_46d_DateOfExpired =
+            tempP4_46d_DateOfExpired[1] +
+            "/" +
+            tempP4_46d_DateOfExpired[2] +
+            "/" +
+            tempP4_46d_DateOfExpired[0];
+        }
         integrateData.P4_47_PassportNumber = beneData.Passport_Number;
         integrateData.P4_48_TravelDocumentNumber =
           beneData.Travel_Document_Number;
         integrateData.P4_49_CountryIssuedPassport =
           beneData.Country_Passport_Issued;
-        integrateData.P4_50_ExpirationDateforPassport =
-          beneData.Date_Passport_Expired;
+        if (
+          beneData.Date_Passport_Expired !== undefined ||
+          beneData.Date_Passport_Expired !== null
+        ) {
+          let tempP4_50_ExpirationDateforPassport = beneData.Date_Passport_Expired.split(
+            "-"
+          );
+          integrateData.P4_50_ExpirationDateforPassport =
+            tempP4_50_ExpirationDateforPassport[1] +
+            "/" +
+            tempP4_50_ExpirationDateforPassport[2] +
+            "/" +
+            tempP4_50_ExpirationDateforPassport[0];
+        }
         integrateData.P4_53_EverInImmigration =
           beneData.EVER_in_immigration_proceedings;
         integrateData.P4_54_typeOfProceedings = beneData.Type_of_Proceedings;
         integrateData.P4_55a_CityOrTown = beneData.Proceedings_City_Or_Town;
         integrateData.P4_55b_State = beneData.Proceedings_State;
-        integrateData.P4_56_Date = beneData.Proceedings_Date;
+        if (
+          beneData.Proceedings_Date !== undefined ||
+          beneData.Proceedings_Date !== null
+        ) {
+          let tempP4_56_Date = beneData.Proceedings_Date.split("-");
+          integrateData.P4_56_Date =
+            tempP4_56_Date[1] +
+            "/" +
+            tempP4_56_Date[2] +
+            "/" +
+            tempP4_56_Date[0];
+        }
         integrateData.P5_1_EverFiledPetiForTheBene =
           beneData.Ever_Filed_Petition_For_The_Beneficiary;
       }
