@@ -106,12 +106,23 @@ module.exports = {
       integrateData.P2_19a_CityTownVillageOfBirth = clientData.City_of_Birth;
       integrateData.P2_19b_StateProvinceOfBirth = clientData.Province_of_Birth;
       integrateData.P2_19c_CountryOfBirth = clientData.Country_of_Birth;
-      integrateData.P2_20_DOB = clientData.Date_of_Birth;
+      if (clientData.Date_of_Birth !== null) {
+        let temp = clientData.Date_of_Birth.split("-");
+        integrateData.P2_20_DOB = temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
       integrateData.P2_21a_I94 = clientData.I_94_No;
       integrateData.P2_21b_PassportNumber = clientData.Passport_Number;
-      integrateData.P2_21e_ExpirationDateforPassport =
-        clientData.Date_Passport_Expired;
-      integrateData.P2_22_DateLastArrivalUS = clientData.Date_of_Last_Entry;
+
+      if (clientData.Date_Passport_Expired !== null) {
+        let temp = clientData.Date_Passport_Expired.split("-");
+        integrateData.P2_21e_ExpirationDateforPassport =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
+      if (clientData.Date_of_Last_Entry !== null) {
+        let temp = clientData.Date_of_Last_Entry.split("-");
+        integrateData.P2_22_DateLastArrivalUS =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
       integrateData.P2_23_PlaceLastArrivalUS = clientData.Place_of_Last_Entry;
       integrateData.P2_24_statusLastArrival = clientData.Status_of_Last_Entry;
       integrateData.P2_25_statusCurrent = clientData.Current_Status;
@@ -189,7 +200,10 @@ module.exports = {
       integrateData.P1_5_CountryOfCitizenship =
         clientData.Country_of_Citizenship;
       integrateData.P1_7_Gender = clientData.Gender;
-      integrateData.P1_8_DOB = clientData.Date_of_Birth;
+      if (clientData.Date_of_Birth !== null) {
+        let temp = clientData.Date_of_Birth.split("-");
+        integrateData.P1_8_DOB = temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
       integrateData.P1_9_SSN = clientData.SSN;
 
       // special process for ANumber, remove blank and A/a in the front
@@ -214,8 +228,12 @@ module.exports = {
       integrateData.P4_1a_PurposeOfTrip = "Visiting family member and friends";
       integrateData.P1_6_ClassOfAdmission = clientData.Current_Status;
       integrateData.P2_1a_ApplicationType = caseData.I131_Application_Type;
-      integrateData.P3_1_DateIntendedDeparture =
-        caseData.Date_of_Intended_Departure;
+      if (caseData.Date_of_Intended_Departure !== null) {
+        let temp = caseData.Date_of_Intended_Departure.split("-");
+        integrateData.P3_1_DateIntendedDeparture =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
+
       integrateData.P3_2_ExpectedTripLength =
         caseData.Exected_Length_of_Trips_in_days;
     }
@@ -407,9 +425,16 @@ module.exports = {
             integrateData.SixtyDaysfollowingEndofPregnancy = "true";
         }
       }
-      integrateData.MedicaidStartDate = caseInfoData.Medicaid_Exempt_Start_Date;
-      integrateData.MedicaidEndDate = caseInfoData.Medicaid_Exempt_End_Date;
 
+      if (caseInfoData.Medicaid_Exempt_Start_Date !== null) {
+        let temp = caseInfoData.Medicaid_Exempt_Start_Date.split("-");
+        integrateData.MedicaidStartDate =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
+      if (caseInfoData.Medicaid_Exempt_End_Date !== null) {
+        let temp = caseInfoData.Medicaid_Exempt_End_Date.split("-");
+        integrateData.MedicaidEndDate = temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
       integrateData.I129_P7_Line1_PetitionerTitle =
         caseInfoData.Petitioner_Title;
       integrateData.I_129_P8_Line1_PreparerFamilyName =
@@ -434,8 +459,12 @@ module.exports = {
       integrateData.I_129_SP_S3_L1_CAPType = caseInfoData.Type_of_Petition;
       integrateData.I_129_SP_S3_L2a_UniversityName =
         caseInfoData.University_Name;
-      integrateData.I_129_SP_S3_L2b_DateDegreeAwarded =
-        caseInfoData.Date_Degree_Awarded;
+      if (caseInfoData.Date_Degree_Awarded !== null) {
+        let temp = caseInfoData.Date_Degree_Awarded.split("-");
+        integrateData.I_129_SP_S3_L2b_DateDegreeAwarded =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
+
       integrateData.I_129_SP_S3_L2c_TypeofDegree =
         caseInfoData.Type_of_U_S_Degree;
       integrateData.I_129_SP_S3_L2d_UniversityStreetName =
