@@ -232,6 +232,9 @@ module.exports = {
         caseInfoData.Petitioner_Full_Name_w_Title;
       integrateData.G28_P3_10_DaytimeTelephone =
         caseInfoData.Petitioner_Daytime_Phone;
+      console.log("integrateData.G28_P3_10_DaytimeTelephone~~~~~~~~~~~~~~~~");
+
+      console.log(integrateData.G28_P3_10_DaytimeTelephone);
       integrateData.G28_P3_13a_Street = caseInfoData.Petitioner_Street_Address;
       integrateData.G28_P3_13b = caseInfoData.Petitioner_Unit;
       integrateData.G28_P3_13b_Address = caseInfoData.Petitioner_Unit_Number;
@@ -334,8 +337,17 @@ module.exports = {
       integrateData.I_129_P5_L8_Hours = caseInfoData.Hours_Per_Week;
       integrateData.I_129_P5_L9_Wages = caseInfoData.Wage;
       integrateData.I_129_P5_L9_Per = caseInfoData.Wage_Unit;
-      integrateData.I_129_P5_L11_DateFrom = caseInfoData.Start_From;
-      integrateData.I_129_P5_L11_DateTo = caseInfoData.To;
+
+      if (caseInfoData.Start_From !== null) {
+        let temp = caseInfoData.Start_From.split("-");
+        integrateData.I_129_P5_L11_DateFrom =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
+      if (caseInfoData.To !== null) {
+        let temp = caseInfoData.To.split("-");
+        integrateData.I_129_P5_L11_DateTo =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
       integrateData.I_129_P5_L12_TypeofBusiness = caseInfoData.Type_of_Business;
       integrateData.I_129_P5_L13_YearEstablished =
         caseInfoData.Year_Established;
