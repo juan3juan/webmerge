@@ -76,21 +76,23 @@ module.exports = {
       integrateData.CaseMmgID = caseData.id;
     }
 
-    //G28
-    integrateData.G28_P3_6a_FamilyName = clientData.Last_Name;
-    integrateData.G28_P3_6b_GivenName = clientData.First_Name;
-    integrateData.G28_P3_6c_MiddleName = clientData.Middle_Name;
-    integrateData.G28_P3_10_DaytimeTelephone = clientData.Phone;
-    integrateData.G28_P3_11_TelephoneNumber = clientData.Mobile;
-    integrateData.G28_P3_12_Email = clientData.Email;
-    integrateData.G28_P3_13a_Street = clientData.Mailing_Street;
-    integrateData.G28_P3_13b = clientData.Mailing_Unit;
-    integrateData.G28_P3_13b_Address = clientData.Mailing_Unit_Number;
-    integrateData.G28_P3_13c_CityOrTown = clientData.Mailing_City;
-    integrateData.G28_P3_13d_State = clientData.Mailing_State;
-    integrateData.G28_P3_13e_ZIPCode = clientData.Mailing_Zip;
     if (input.document == "G28_I765_test") {
       testfile = testfile_G28_I765_test;
+
+      //G28
+      integrateData.G28_P3_6a_FamilyName = clientData.Last_Name;
+      integrateData.G28_P3_6b_GivenName = clientData.First_Name;
+      integrateData.G28_P3_6c_MiddleName = clientData.Middle_Name;
+      integrateData.G28_P3_10_DaytimeTelephone = clientData.Phone;
+      integrateData.G28_P3_11_TelephoneNumber = clientData.Mobile;
+      integrateData.G28_P3_12_Email = clientData.Email;
+      integrateData.G28_P3_13a_Street = clientData.Mailing_Street;
+      integrateData.G28_P3_13b = clientData.Mailing_Unit;
+      integrateData.G28_P3_13b_Address = clientData.Mailing_Unit_Number;
+      integrateData.G28_P3_13c_CityOrTown = clientData.Mailing_City;
+      integrateData.G28_P3_13d_State = clientData.Mailing_State;
+      integrateData.G28_P3_13e_ZIPCode = clientData.Mailing_Zip;
+
       integrateData.P2_10_Gender = clientData.Gender;
       integrateData.P2_11_MaritalStatus = clientData.Marital_Status;
       integrateData.P2_13b_ssn = clientData.SSN;
@@ -167,6 +169,21 @@ module.exports = {
         clientData.Principle_Receipt_Number;
     } else if (input.document == "G28_I131") {
       testfile = G28_I131;
+
+      //G28
+      integrateData.G28_P3_6a_FamilyName = clientData.Last_Name;
+      integrateData.G28_P3_6b_GivenName = clientData.First_Name;
+      integrateData.G28_P3_6c_MiddleName = clientData.Middle_Name;
+      integrateData.G28_P3_10_DaytimeTelephone = clientData.Phone;
+      integrateData.G28_P3_11_TelephoneNumber = clientData.Mobile;
+      integrateData.G28_P3_12_Email = clientData.Email;
+      integrateData.G28_P3_13a_Street = clientData.Mailing_Street;
+      integrateData.G28_P3_13b = clientData.Mailing_Unit;
+      integrateData.G28_P3_13b_Address = clientData.Mailing_Unit_Number;
+      integrateData.G28_P3_13c_CityOrTown = clientData.Mailing_City;
+      integrateData.G28_P3_13d_State = clientData.Mailing_State;
+      integrateData.G28_P3_13e_ZIPCode = clientData.Mailing_Zip;
+
       integrateData.P1_2i_Country = clientData.Mailing_Country;
       integrateData.P1_4_CountryOfBirth = clientData.Country_of_Birth;
       integrateData.P1_5_CountryOfCitizenship =
@@ -201,23 +218,27 @@ module.exports = {
         caseData.Date_of_Intended_Departure;
       integrateData.P3_2_ExpectedTripLength =
         caseData.Exected_Length_of_Trips_in_days;
-    } else if (input.document == "G28_H1B") {
+    }
+    // ~~~~~~~~~~~~~~~~~~~~~~ H1B ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    else if (input.document == "G28_H1B") {
       testfile = G28_H1B;
 
-      // special process for ANumber, remove blank and A/a in the front
-      let ANumber = clientData.A_Number;
-      if (ANumber !== null) {
-        ANumber = ANumber.trim().replace(/\s/g, ""); //remove blank front, end and between
-        if (ANumber !== null || ANumber !== "") {
-          if (ANumber.charAt(0) === "A" || ANumber.charAt(0) === "a")
-            ANumber = ANumber.substring(1);
-        }
-        integrateData.G28_P3_9_ClientANumber = ANumber;
-      }
-
+      //G28
+      integrateData.G28_P3_6a_FamilyName = caseInfoData.Petitioner_Last_Name;
+      integrateData.G28_P3_6b_GivenName = caseInfoData.Petitioner_First_Name;
+      integrateData.G28_P3_6c_MiddleName = caseInfoData.Petitioner_Middle_Name;
       integrateData.G28_P3_7a_CompanyName = caseInfoData.Company_Name;
-      integrateData.I129_P1_7a_InCareofName =
-        clientData.First_Name + " " + clientData.Last_Name;
+      integrateData.G28_P3_7b_PetitionerTitle =
+        caseInfoData.Petitioner_Full_Name_w_Title;
+      integrateData.G28_P3_10_DaytimeTelephone =
+        caseInfoData.Petitioner_Daytime_Phone;
+      integrateData.G28_P3_13a_Street = caseInfoData.Petitioner_Street_Address;
+      integrateData.G28_P3_13b = caseInfoData.Petitioner_Unit;
+      integrateData.G28_P3_13b_Address = caseInfoData.Petitioner_Unit_Number;
+      integrateData.G28_P3_13c_CityOrTown = caseInfoData.Petitioner_City;
+      integrateData.G28_P3_13d_State = caseInfoData.Petitioner_State;
+      integrateData.G28_P3_13e_ZIPCode = caseInfoData.Petitioner_Zip_Code;
+
       integrateData.I129_P1_FEIN = caseInfoData.FEIN;
       integrateData.I129_P2_L3_recentPetitionNumber =
         caseInfoData.Recent_Petition_Number;
@@ -225,23 +246,42 @@ module.exports = {
       integrateData.I129_P3_Line2_FamilyName = caseInfoData.Last_Name;
       integrateData.I129_P3_Line2_GivenName = caseInfoData.First_Name;
       integrateData.I129_P3_Line2_MiddleName = caseInfoData.Middle_Name;
-      integrateData.I129_P3_Line4_DateOfBirth = caseInfoData.D_O_B;
-      integrateData.I129_P3_Line4_SSN = clientData.SSN;
+      if (caseInfoData.D_O_B !== null) {
+        let temp = caseInfoData.D_O_B.split("-");
+        integrateData.I129_P3_Line4_DateOfBirth =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
+      integrateData.I129_P3_L4_Gender = caseInfoData.Gender;
+      integrateData.I129_P3_Line4_SSN = caseInfoData.S_S_N;
       integrateData.I_129_P3_Line4_CountryOfBirth =
         caseInfoData.Country_of_Birth;
       integrateData.I_129_P3_Line4_DProvince = caseInfoData.Province_of_Birth;
       integrateData.I_129_P3_Line4_Nationality =
         caseInfoData.Country_of_Citizenship;
-      integrateData.I_129_P3_Line5_DateofArrival =
-        caseInfoData.Date_of_Last_Arrival;
+
+      if (caseInfoData.Date_of_Last_Arrival !== null) {
+        let temp = caseInfoData.Date_of_Last_Arrival.split("-");
+        integrateData.I_129_P3_Line5_DateofArrival =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
       integrateData.I_129_P3_Line5_ArrivalDeparture = caseInfoData.I_94_No;
       integrateData.I_129_P3_Line5_PassportorTravDoc = caseInfoData.Passport_No;
-      integrateData.I_129_P3_Line5_IssueDate =
-        caseInfoData.Date_Passport_Issued;
-      integrateData.I_129_P3_Line5_ExpDate = caseInfoData.Date_Passport_Expires;
+      if (caseInfoData.Date_Passport_Issued !== null) {
+        let temp = caseInfoData.Date_Passport_Issued.split("-");
+        integrateData.I_129_P3_Line5_IssueDate =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
+      if (caseInfoData.Date_Passport_Expires !== null) {
+        let temp = caseInfoData.Date_Passport_Expires.split("-");
+        integrateData.I_129_P3_Line5_ExpDate =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
       integrateData.I_129_P3_Line5_CurrentNon = caseInfoData.Current_Status;
-      integrateData.I_129_P3_Line5_DateStatusExpires =
-        caseInfoData.Date_Status_Expires;
+      if (caseInfoData.Date_Status_Expires !== null) {
+        let temp = caseInfoData.Date_Status_Expires.split("-");
+        integrateData.I_129_P3_Line5_DateStatusExpires =
+          temp[1] + "/" + temp[2] + "/" + temp[0];
+      }
       let SEVIS = clientData.SEVIS_No;
       if (SEVIS !== null) {
         SEVIS = SEVIS.trim().replace(/\s/g, ""); //remove blank front, end and between
@@ -294,8 +334,8 @@ module.exports = {
       integrateData.I_129_P5_L8_Hours = caseInfoData.Hours_Per_Week;
       integrateData.I_129_P5_L9_Wages = caseInfoData.Wage;
       integrateData.I_129_P5_L9_Per = caseInfoData.Wage_Unit;
-      integrateData.I_129_P5_L11_DateFrom = caseInfoData.F_Start_From;
-      integrateData.I_129_P5_L11_DateTo = caseInfoData.F_To;
+      integrateData.I_129_P5_L11_DateFrom = caseInfoData.Start_From;
+      integrateData.I_129_P5_L11_DateTo = caseInfoData.To;
       integrateData.I_129_P5_L12_TypeofBusiness = caseInfoData.Type_of_Business;
       integrateData.I_129_P5_L13_YearEstablished =
         caseInfoData.Year_Established;
@@ -306,8 +346,6 @@ module.exports = {
       integrateData.I_129_P5_L16_NetAnnualIncome =
         caseInfoData.Net_Annual_Income;
       integrateData.ReceiveAnyBenefits = caseData.Receive_Any_Benefits;
-      console.log("Receive_Any_Benefits");
-      console.log(caseData.Receive_Any_Benefits);
 
       // multi-select  page 10
       let abr = caseData.All_Benefits_Received;
@@ -401,8 +439,25 @@ module.exports = {
       integrateData.I_129_SP_S3_L2d_UniversityZipCode =
         caseInfoData.University_Zip_Code;
       integrateData.I_129_P5_L5_Offsite = caseInfoData.Off_site_Assignment;
-    } else if (input.document == "G28_I130") {
+    }
+    // ~~~~~~~~~~~~~~~~~~~~~~ 130 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    else if (input.document == "G28_I130") {
       testfile = G28_I130;
+
+      //G28
+      integrateData.G28_P3_6a_FamilyName = clientData.Last_Name;
+      integrateData.G28_P3_6b_GivenName = clientData.First_Name;
+      integrateData.G28_P3_6c_MiddleName = clientData.Middle_Name;
+      integrateData.G28_P3_10_DaytimeTelephone = clientData.Phone;
+      integrateData.G28_P3_11_TelephoneNumber = clientData.Mobile;
+      integrateData.G28_P3_12_Email = clientData.Email;
+      integrateData.G28_P3_13a_Street = clientData.Mailing_Street;
+      integrateData.G28_P3_13b = clientData.Mailing_Unit;
+      integrateData.G28_P3_13b_Address = clientData.Mailing_Unit_Number;
+      integrateData.G28_P3_13c_CityOrTown = clientData.Mailing_City;
+      integrateData.G28_P3_13d_State = clientData.Mailing_State;
+      integrateData.G28_P3_13e_ZIPCode = clientData.Mailing_Zip;
+
       integrateData.P2_10_Gender = clientData.Gender;
       integrateData.P2_11_MaritalStatus = clientData.Marital_Status;
       integrateData.P2_13b_ssn = clientData.SSN;
