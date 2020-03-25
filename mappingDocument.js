@@ -733,6 +733,424 @@ module.exports = {
         integrateData.P2_43h_Country = companyData.Billing_Country;
       }
       integrateData.P2_44_Occupation = caseData.Occupation_Title;
+
+      //peti marriage
+      if (
+        clientData.Marriage_Information !== undefined &&
+        clientData.Marriage_Information !== null
+      ) {
+        let temp = clientData.Marriage_Information.split(";");
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i] !== undefined && temp[i] !== null) {
+            let splits = temp[i].split(":");
+            if (splits[0].includes("MarriedTimes"))
+              integrateData.P2_16_MarriedTimes = splits[1].trim();
+            if (splits[0].includes("DateOfCurrentMarriage")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_18_CurrentlyMarriage =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("City"))
+              integrateData.P2_19a_CityOrTown = splits[1].trim();
+            if (splits[0].includes("State"))
+              integrateData.P2_19b_State = splits[1].trim();
+            if (splits[0].includes("Province"))
+              integrateData.P2_19c_Province = splits[1].trim();
+            if (splits[0].includes("Country"))
+              integrateData.P2_19d_Country = splits[1].trim();
+            if (splits[0].includes("Spouse1_First_Name"))
+              integrateData.P2_20b_GivenName = splits[1].trim();
+            if (splits[0].includes("Spouse1_Last_Name"))
+              integrateData.P2_20a_FamilyName = splits[1].trim();
+            if (splits[0].includes("Spouse1_Middle_Name"))
+              integrateData.P2_20c_MiddleName = splits[1].trim();
+            if (splits[0].includes("Spouse1DateOfMarriageEnd")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_21_MarriageEnded =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("Spouse2_First_Name"))
+              integrateData.P2_22b_GivenName = splits[1].trim();
+            if (splits[0].includes("Spouse2_Last_Name"))
+              integrateData.P2_22a_FamilyName = splits[1].trim();
+            if (splits[0].includes("Spouse2_Middle_Name"))
+              integrateData.P2_22c_MiddleName = splits[1].trim();
+            if (splits[0].includes("Spouse2DateOfMarriageEnd")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_23_MarriageEnded =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+          }
+        }
+      }
+
+      // peti parents
+      if (
+        clientData.Parents_Information !== undefined &&
+        clientData.Parents_Information !== null
+      ) {
+        let temp = clientData.Parents_Information.split(";");
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i] !== undefined && temp[i] !== null) {
+            let splits = temp[i].split(":");
+            if (splits[0].includes("Parent1FirstName"))
+              integrateData.P2_24b_GivenName = splits[1].trim();
+            if (splits[0].includes("Parent1LastName"))
+              integrateData.P2_24a_FamilyName = splits[1].trim();
+            if (splits[0].includes("Parent1MiddleName"))
+              integrateData.P2_24c_MiddleName = splits[1].trim();
+            if (splits[0].includes("Parent1DOB")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_25_DOBParent =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("Parent1Sex"))
+              integrateData.P2_26_Sex = splits[1].trim();
+            if (splits[0].includes("Parent1CountryOfBirth"))
+              integrateData.P2_27_CountryOfBirth = splits[1].trim();
+            if (splits[0].includes("Parent1CityOfResidence"))
+              integrateData.P2_28_CityOfResidence = splits[1].trim();
+            if (splits[0].includes("Parent1CountryOfResidence"))
+              integrateData.P2_29_CountryOfResidence = splits[1].trim();
+            if (splits[0].includes("Parent2FirstName"))
+              integrateData.P2_30b_GivenName = splits[1].trim();
+            if (splits[0].includes("Parent2LastName"))
+              integrateData.P2_30a_FamilyName = splits[1].trim();
+            if (splits[0].includes("Parent2MiddleName"))
+              integrateData.P2_30c_MiddleName = splits[1].trim();
+            if (splits[0].includes("Parent2DOB")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_31_DOBParent =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("Parent2Sex"))
+              integrateData.P2_32_Sex = splits[1].trim();
+            if (splits[0].includes("Parent2CountryOfBirth"))
+              integrateData.P2_33_CountryOfBirth = splits[1].trim();
+            if (splits[0].includes("Parent2CityOfResidence"))
+              integrateData.P2_34_CityOfResidence = splits[1].trim();
+            if (splits[0].includes("Parent2CountryOfResidence"))
+              integrateData.P2_35_CountryOfResidence = splits[1].trim();
+          }
+        }
+      }
+
+      //peti citizen & GC info
+      if (
+        clientData.Citizen_Green_Card_Information !== undefined &&
+        clientData.Citizen_Green_Card_Information !== null
+      ) {
+        let temp = clientData.Citizen_Green_Card_Information.split(";");
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i] !== undefined && temp[i] !== null) {
+            let splits = temp[i].split(":");
+            if (splits[0].includes("CitizenshipPlaceOfIssuance"))
+              integrateData.P2_39b_PlaceOfIssuance = splits[1].trim();
+            if (splits[0].includes("CitizenshipDateOfIssuance")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_39c_DateOfIssuance =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("PRDateOfAdmission"))
+              integrateData.P2_40b_DateOfAdmission = splits[1].trim();
+            if (splits[0].includes("PRCityOrTown"))
+              integrateData.P2_40c_CityOrTown = splits[1].trim();
+            if (splits[0].includes("PRState"))
+              integrateData.P2_40d_State = splits[1].trim();
+          }
+        }
+      }
+
+      // peti employment history
+      if (
+        clientData.Employment_History !== undefined &&
+        clientData.Employment_History !== null
+      ) {
+        let temp = clientData.Employment_History.split(";");
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i] !== undefined && temp[i] !== null) {
+            let splits = temp[i].split(":");
+            if (splits[0].includes("Company1"))
+              integrateData.P2_42_Employer = splits[1].trim();
+            if (splits[0].includes("Employer1_Street"))
+              integrateData.P2_43a_Street = splits[1].trim();
+            if (splits[0].includes("Employer1_Unit"))
+              integrateData.P2_43b = splits[1].trim();
+            if (splits[0].includes("Employer1_Unit_Number"))
+              integrateData.P2_43b_Address = splits[1].trim();
+            if (splits[0].includes("Employer1_City"))
+              integrateData.P2_43c_CityOrTown = splits[1].trim();
+            if (splits[0].includes("Employer1_State"))
+              integrateData.P2_43d_State = splits[1].trim();
+            if (splits[0].includes("Employer1_Zip"))
+              integrateData.P2_43e_ZIPCode = splits[1].trim();
+            if (splits[0].includes("Employer1_Province"))
+              integrateData.P2_43f_Province = splits[1].trim();
+            if (splits[0].includes("Employer1_Postal_Code"))
+              integrateData.P2_43g_PostalCode = splits[1].trim();
+            if (splits[0].includes("Employer1_Country"))
+              integrateData.P2_43h_Country = splits[1].trim();
+            if (splits[0].includes("Employer1_Your_Occupation"))
+              integrateData.P2_44_Occupation = splits[1].trim();
+            if (splits[0].includes("Employer1_Date_From")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_45a_DateFrom =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("Employer1_Date_To")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_45b_DateTo =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("Company2"))
+              integrateData.P2_46_Employer = splits[1].trim();
+            if (splits[0].includes("Employer2_Street"))
+              integrateData.P2_47a_Street = splits[1].trim();
+            if (splits[0].includes("Employer2_Unit"))
+              integrateData.P2_47b = splits[1].trim();
+            if (splits[0].includes("Employer2_Unit_Number"))
+              integrateData.P2_47b_Address = splits[1].trim();
+            if (splits[0].includes("Employer2_City"))
+              integrateData.P2_47c_CityOrTown = splits[1].trim();
+            if (splits[0].includes("Employer2_State"))
+              integrateData.P2_47d_State = splits[1].trim();
+            if (splits[0].includes("Employer2_Zip"))
+              integrateData.P2_47e_ZIPCode = splits[1].trim();
+            if (splits[0].includes("Employer2_Province"))
+              integrateData.P2_47f_Province = splits[1].trim();
+            if (splits[0].includes("Employer2_Postal_Code"))
+              integrateData.P2_47g_PostalCode = splits[1].trim();
+            if (splits[0].includes("Employer2_Country"))
+              integrateData.P2_47h_Country = splits[1].trim();
+            if (splits[0].includes("Employer2_Your_Occupation"))
+              integrateData.P2_48_Occupation = splits[1].trim();
+            if (splits[0].includes("Employer2_Date_From")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_49a_DateFrom =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("Employer2_Date_To")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P2_49b_DateTo =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+          }
+        }
+      }
+
+      // bene marriage info
+      if (
+        beneData.Marriage_Information !== undefined &&
+        beneData.Marriage_Information !== null
+      ) {
+        let temp = beneData.Marriage_Information.split(";");
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i] !== undefined && temp[i] !== null) {
+            let splits = temp[i].split(":");
+            if (splits[0].includes("MarriedTimes"))
+              integrateData.P4_17_MarriedTimes = splits[1].trim();
+            if (splits[0].includes("DateOfCurrentMarriage")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P4_19_CurrentlyMarriage =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("City"))
+              integrateData.P4_20a_CityOrTown = splits[1].trim();
+            if (splits[0].includes("State"))
+              integrateData.P4_20b_State = splits[1].trim();
+            if (splits[0].includes("Province"))
+              integrateData.P4_20c_Province = splits[1].trim();
+            if (splits[0].includes("Country"))
+              integrateData.P4_20d_Country = splits[1].trim();
+            if (splits[0].includes("Spouse1_First_Name"))
+              integrateData.P4_21b_GivenName = splits[1].trim();
+            if (splits[0].includes("Spouse1_Last_Name"))
+              integrateData.P4_21a_FamilyName = splits[1].trim();
+            if (splits[0].includes("Spouse1_Middle_Name"))
+              integrateData.P4_21c_MiddleName = splits[1].trim();
+            if (splits[0].includes("Spouse1DateOfMarriageEnd")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P4_22_MarriageEndedDate =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("Spouse2_First_Name"))
+              integrateData.P4_23b_GivenName = splits[1].trim();
+            if (splits[0].includes("Spouse2_Last_Name"))
+              integrateData.P4_23a_FamilyName = splits[1].trim();
+            if (splits[0].includes("Spouse2_Middle_Name"))
+              integrateData.P4_23c_MiddleName = splits[1].trim();
+            if (splits[0].includes("Spouse2DateOfMarriageEnd")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P4_24_MarriageEndedDate =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+          }
+        }
+      }
+
+      // bene family info
+      if (
+        beneData.Family_Information !== undefined &&
+        beneData.Family_Information !== null
+      ) {
+        let temp = beneData.Family_Information.split(";");
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i] !== undefined && temp[i] !== null) {
+            let splits = temp[i].split(":");
+            if (splits[0].includes("P1_First_Name"))
+              integrateData.P4_25b_GivenName = splits[1].trim();
+            if (splits[0].includes("P1_Middle_Name"))
+              integrateData.P4_25c_MiddleName = splits[1].trim();
+            if (splits[0].includes("P1_Last_Name"))
+              integrateData.P4_25a_FamilyName = splits[1].trim();
+            if (splits[0].includes("P1_Relationship"))
+              integrateData.P4_26_Relationship = splits[1].trim();
+            if (splits[0].includes("P1_DateOfBirth")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P4_27_DOB =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("P1_CountryOfBirth"))
+              integrateData.P4_28_CountryOfBirth = splits[1].trim();
+            if (splits[0].includes("P2_First_Name"))
+              integrateData.P4_29b_GivenName = splits[1].trim();
+            if (splits[0].includes("P2_Middle_Name"))
+              integrateData.P4_29c_MiddleName = splits[1].trim();
+            if (splits[0].includes("P2_Last_Name"))
+              integrateData.P4_29a_FamilyName = splits[1].trim();
+            if (splits[0].includes("P2_Relationship"))
+              integrateData.P4_30_Relationship = splits[1].trim();
+            if (splits[0].includes("P2_DateOfBirth")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P4_31_DOB =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("P2_CountryOfBirth"))
+              integrateData.P4_32_CountryOfBirth = splits[1].trim();
+            if (splits[0].includes("P3_First_Name"))
+              integrateData.P4_33b_GivenName = splits[1].trim();
+            if (splits[0].includes("P3_Middle_Name"))
+              integrateData.P4_33c_MiddleName = splits[1].trim();
+            if (splits[0].includes("P3_Last_Name"))
+              integrateData.P4_33a_FamilyName = splits[1].trim();
+            if (splits[0].includes("P3_Relationship"))
+              integrateData.P4_34_Relationship = splits[1].trim();
+            if (splits[0].includes("P3_DateOfBirth")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P4_35_DOB =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("P3_CountryOfBirth"))
+              integrateData.P4_36_CountryOfBirth = splits[1].trim();
+            if (splits[0].includes("P4_First_Name"))
+              integrateData.P4_37b_GivenName = splits[1].trim();
+            if (splits[0].includes("P4_Middle_Name"))
+              integrateData.P4_37c_MiddleName = splits[1].trim();
+            if (splits[0].includes("P4_Last_Name"))
+              integrateData.P4_37a_FamilyName = splits[1].trim();
+            if (splits[0].includes("P4_Relationship"))
+              integrateData.P4_38_Relationship = splits[1].trim();
+            if (splits[0].includes("P4_DateOfBirth")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P4_39_DOB =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("P4_CountryOfBirth"))
+              integrateData.P4_40_CountryOfBirth = splits[1].trim();
+            if (splits[0].includes("P5_First_Name"))
+              integrateData.P4_41b_GivenName = splits[1].trim();
+            if (splits[0].includes("P5_Middle_Name"))
+              integrateData.P4_41c_MiddleName = splits[1].trim();
+            if (splits[0].includes("P5_Last_Name"))
+              integrateData.P4_41a_FamilyName = splits[1].trim();
+            if (splits[0].includes("P5_Relationship"))
+              integrateData.P4_42_Relationship = splits[1].trim();
+            if (splits[0].includes("P5_DateOfBirth")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P4_43_DOB =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+            if (splits[0].includes("P5_CountryOfBirth"))
+              integrateData.P4_44_CountryOfBirth = splits[1].trim();
+          }
+        }
+      }
+
+      // bene employ info
+      if (
+        beneData.Employment_History !== undefined &&
+        beneData.Employment_History !== null
+      ) {
+        let temp = clientData.Employment_History.split(";");
+        for (let i = 0; i < temp.length; i++) {
+          if (temp[i] !== undefined && temp[i] !== null) {
+            let splits = temp[i].split(":");
+            if (splits[0].includes("Company1"))
+              integrateData.P4_51a_Employer = splits[1].trim();
+            if (splits[0].includes("Employer1_Street"))
+              integrateData.P4_51b_Street = splits[1].trim();
+            if (splits[0].includes("Employer1_Unit"))
+              integrateData.P4_51c = splits[1].trim();
+            if (splits[0].includes("Employer1_Unit_Number"))
+              integrateData.P4_51c_Address = splits[1].trim();
+            if (splits[0].includes("Employer1_City"))
+              integrateData.P4_51d_CityOrTown = splits[1].trim();
+            if (splits[0].includes("Employer1_State"))
+              integrateData.P4_51e_State = splits[1].trim();
+            if (splits[0].includes("Employer1_Zip"))
+              integrateData.P4_51f_ZIPCode = splits[1].trim();
+            if (splits[0].includes("Employer1_Province"))
+              integrateData.P4_51g_Province = splits[1].trim();
+            if (splits[0].includes("Employer1_Postal_Code"))
+              integrateData.P4_51h_PostalCode = splits[1].trim();
+            if (splits[0].includes("Employer1_Country"))
+              integrateData.P4_51i_Country = splits[1].trim();
+            if (splits[0].includes("Employer1_Date_From")) {
+              if (splits[1].trim() !== null && splits[1].trim() !== undefined) {
+                let temp = splits[1].trim().split("-");
+                integrateData.P4_52_DateFrom =
+                  temp[1] + "/" + temp[2] + "/" + temp[0];
+              }
+            }
+          }
+        }
+      }
     }
 
     return [integrateData, testfile];
