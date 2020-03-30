@@ -265,9 +265,7 @@ module.exports = {
         caseInfoData.Petitioner_Full_Name_w_Title;
       integrateData.G28_P3_10_DaytimeTelephone =
         caseInfoData.Petitioner_Daytime_Phone;
-      console.log("integrateData.G28_P3_10_DaytimeTelephone~~~~~~~~~~~~~~~~");
 
-      console.log(integrateData.G28_P3_10_DaytimeTelephone);
       integrateData.G28_P3_13a_Street = caseInfoData.Petitioner_Street_Address;
       integrateData.G28_P3_13b = caseInfoData.Petitioner_Unit;
       integrateData.G28_P3_13b_Address = caseInfoData.Petitioner_Unit_Number;
@@ -519,6 +517,8 @@ module.exports = {
       integrateData.I_129_SP_S3_L2d_UniversityZipCode =
         caseInfoData.University_Zip_Code;
       integrateData.I_129_P5_L5_Offsite = caseInfoData.Off_site_Assignment;
+      integrateData.I29_P10_5_SelectionConfirmationNumber =
+        caseData.H1B_Selected;
     }
     // ~~~~~~~~~~~~~~~~~~~~~~ 130 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     else if (input.document == "G28_I130") {
