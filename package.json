@@ -15,7 +15,7 @@
     "moment-timezone": "^0.5.27",
     "pdfkit": "^0.10.0",
     "pdfmake": "^0.1.58",
-    "ssh2": "^0.8.5",
+    "ssh2": "^1.4.0",
     "webmerge": "^1.0.2",
     "zcrmsdk": "0.0.15"
   }
